@@ -78,6 +78,15 @@ plt.plot(days, p2_power, label = "Planar 2", alpha = 0.2, color= (0.5,0.4,0))
 plt.plot(days, p3_power, label = "Planar 3", alpha = 0.2, color= (0.5,0.6,0))
 
 
+#example of vertical line plotting
+plt.axvline(x = 50.153796, color = 'black', alpha = 0.2, label = 'started drying cells')
+plt.axvline(x = 58.886458, color = 'black', alpha = 0.2, label = 'reflooded cells')
+plt.axvline(x = 74.551516, color = 'black', alpha = 0.2, label = 'started drying again')
+
+## PROBLEMS!
+# 1. We don't need the lines to show up in legend
+# 2. We want to label or even maybe shade in regions on the graphs (e.g. between the vertical lines)
+
 plt.ylabel('Power (µW)')
 plt.xlabel('Experiment Timeline (Days)')
 
