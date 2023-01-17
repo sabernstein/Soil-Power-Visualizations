@@ -70,15 +70,15 @@ for i in range(0, len(vertical_ave)):
 # planar_ave = ['P Average']
 
 # # plot line
-# plt.plot(days, vertical_ave, label = "Vertical Average", alpha = 1)
-# plt.plot(days, v1_power, label = "Vertical 1", alpha = 0.2)
+plt.plot(days, vertical_ave, label = "Vertical Average", alpha = 1)
+plt.plot(days, v1_power, label = "Vertical 1", alpha = 0.2)
 plt.plot(days, v2_power, label = "Vertical 2", alpha = 0.2)
-# plt.plot(days, v3_power, label = "Vertical 3", alpha = 0.2)
+plt.plot(days, v3_power, label = "Vertical 3", alpha = 0.2)
 
-# plt.plot(days, planar_ave, label = "Planar Average", alpha = 1)
-# plt.plot(days, p1_power, label = "Planar 1", alpha = 0.2)
-# plt.plot(days, p2_power, label = "Planar 2", alpha = 0.2)
-# plt.plot(days, p3_power, label = "Planar 3", alpha = 0.2)
+plt.plot(days, planar_ave, label = "Planar Average", alpha = 1)
+plt.plot(days, p1_power, label = "Planar 1", alpha = 0.2)
+plt.plot(days, p2_power, label = "Planar 2", alpha = 0.2)
+plt.plot(days, p3_power, label = "Planar 3", alpha = 0.2)
 
 
 plt.ylabel('Power (µW)')
