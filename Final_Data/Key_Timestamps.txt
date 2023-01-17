@@ -1,0 +1,9 @@
+Three timestamps to note for v2 cell experiments:
+1. The cells first started drying at 1659146237
+2. I readded water after the cells all dried out on 1659900739
+3. I let all of the cells dry out again starting 1661254200
+
+
+Key dates for v3 cells:
+1. Drying cycle 1 starts 12/20/23
+2. Restarting cells (added water again) 1/10/23
