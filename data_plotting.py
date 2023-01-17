@@ -3,15 +3,12 @@ from collections import defaultdict
 # importing package
 from datetime import datetime
 import matplotlib.pyplot as plt
-from datetime import date
-import numpy as np
+
 
 # import required modules
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy import signal
-from scipy.signal import butter,filtfilt
-import math
+
 
 columns = defaultdict(list) # each value in each column is appended to a list
 
