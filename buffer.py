@@ -78,7 +78,7 @@ data = np.sin(1.2*2*np.pi*t) + 1.5*np.cos(9*2*np.pi*t) + 0.5*np.sin(12.0*2*np.pi
 # Filter the data, and plot both the original and filtered signals.
 y = butter_lowpass_filter(v2_power, cutoff, fs, order)
 
-plt.subplot(2, 1, 2)
+
 plt.plot(days[:105102], v2_power[:105102], 'b-', label='data')
 plt.plot(days[:105102], y[:105102], 'g-', linewidth=2, label='filtered data')
 plt.xlabel('Time [sec]')
