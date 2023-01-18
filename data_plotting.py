@@ -3,6 +3,7 @@ from collections import defaultdict
 # importing package
 from datetime import datetime
 import matplotlib.pyplot as plt
+from matplotlib import rc
 
 
 # import required modules
@@ -67,28 +68,35 @@ for i in range(0, len(vertical_ave)):
 # planar_ave = ['P Average']
 
 # # plot line
-plt.plot(days, vertical_ave, label = "Vertical Average", alpha = 1, color= (0,0.1,1))
-plt.plot(days, v1_power, label = "Vertical 1", alpha = 0.2, color= (0,0.2,0.5))
-plt.plot(days, v2_power, label = "Vertical 2", alpha = 0.2, color= (0,0.4,0.5))
-plt.plot(days, v3_power, label = "Vertical 3", alpha = 0.2, color= (0,0.6,0.5))
+plt.plot(days[:105102], vertical_ave[:105102], label = "Vertical Average", alpha = 1, color= (0,0.1,1))
+plt.plot(days[:105102], v1_power[:105102], label = "Vertical 1", alpha = 0.2, color= (0,0.2,0.5))
+plt.plot(days[:105102], v2_power[:105102], label = "Vertical 2", alpha = 0.2, color= (0,0.4,0.5))
+plt.plot(days[:105102], v3_power[:105102], label = "Vertical 3", alpha = 0.2, color= (0,0.6,0.5))
 
-plt.plot(days, planar_ave, label = "Planar Average", alpha = 1, color= (1,0.1,0))
-plt.plot(days, p1_power, label = "Planar 1", alpha = 0.2, color= (0.5,0.2,0))
-plt.plot(days, p2_power, label = "Planar 2", alpha = 0.2, color= (0.5,0.4,0))
-plt.plot(days, p3_power, label = "Planar 3", alpha = 0.2, color= (0.5,0.6,0))
-
+plt.plot(days[:105102], planar_ave[:105102], label = "Horizontal Average", alpha = 1, color= (1,0.1,0))
+plt.plot(days[:105102], p1_power[:105102], label = "Horizontal 1", alpha = 0.2, color= (0.5,0.2,0))
+plt.plot(days[:105102], p2_power[:105102], label = "Horizontal 2", alpha = 0.2, color= (0.5,0.4,0))
+plt.plot(days[:105102], p3_power[:105102], label = "Horizontal 3", alpha = 0.2, color= (0.5,0.6,0))
+plt.legend("upper left")
+#rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
+# rc('font',**{'family':'serif','serif':['Times']})
+# rc('text', usetex=True)
 
 #example of vertical line plotting
-plt.axvline(x = 50.153796, color = 'black', alpha = 0.2, label = 'started drying cells')
-plt.axvline(x = 58.886458, color = 'black', alpha = 0.2, label = 'reflooded cells')
-plt.axvline(x = 74.551516, color = 'black', alpha = 0.2, label = 'started drying again')
+# ax.axvspan(8, 14, alpha=0.5, color='red')
+# started drying cells'
+plt.axvline(x = 50.153796, alpha = 0.2, color = 'yellow')
+# label = 'reflooded cells'
+plt.axvspan(50, 58.886458, color = 'yellow', alpha = 0.2)
+# label = 'started drying again'
+plt.axvspan(74.551516, 85, color = 'yellow', alpha = 0.2)
 
 ## PROBLEMS!
 # 1. We don't need the lines to show up in legend
 # 2. We want to label or even maybe shade in regions on the graphs (e.g. between the vertical lines)
 
 plt.ylabel('Power (µW)')
-plt.xlabel('Experiment Timeline (Days)')
+plt.xlabel('Timeline (Days)')
 
 plt.legend()
 plt.show()
