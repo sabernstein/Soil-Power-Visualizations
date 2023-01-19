@@ -5,6 +5,39 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 from matplotlib import rc
 
+#Steps to install custom fonts:
+'''
+1. Download font from sources and unzip, should get .ttf files in File Explorer
+2. Right click all .ttf files you want to install (one per font) and click "Install"
+3. Go to terminal and check if matplotlib have access to the new fonts now:
+
+# from matplotlib import font_manager
+# font_manager.findSystemFonts(fontpaths=None, fontext="ttf")
+
+4. Find the font name in the list (for Libertine (https://www.dafont.com/linux-libertine.font) it's LinLibertine_R), and check if the specific font can be accessed:
+
+# font_manager.findfont("LinLibertine_R", rebuild_if_missing=True)
+
+5. Now that you know it's downloaded, do this to use it:
+
+from matplotlib import font_manager
+font_path = './font/linux_libertine/LinLibertine_R.ttf'  # the location of the font file
+my_font = font_manager.FontProperties(fname=font_path, size=12)  # get the font based on the font_path, set font size
+
+#set font type of x and y axis
+plt.ylabel('Power (µW)', fontproperties=my_font)
+plt.xlabel('Timeline (Days)', fontproperties=my_font)
+
+#set font type of tickmarks
+for label in ax.get_xticklabels():
+    label.set_fontproperties(my_font)
+for label in ax.get_yticklabels():
+    label.set_fontproperties(my_font)
+
+#set font type of legend
+plt.legend(prop=my_font)
+
+'''
 
 # import required modules
 import numpy as np
@@ -68,19 +101,17 @@ for i in range(0, len(vertical_ave)):
 # planar_ave = ['P Average']
 
 # # plot line
-plt.plot(days[:105102], vertical_ave[:105102], label = "Vertical Average", alpha = 1, color= (0,0.1,1))
-plt.plot(days[:105102], v1_power[:105102], label = "Vertical 1", alpha = 0.2, color= (0,0.2,0.5))
-plt.plot(days[:105102], v2_power[:105102], label = "Vertical 2", alpha = 0.2, color= (0,0.4,0.5))
-plt.plot(days[:105102], v3_power[:105102], label = "Vertical 3", alpha = 0.2, color= (0,0.6,0.5))
+fig, ax = plt.subplots()
+ax.plot(days[:105102], vertical_ave[:105102], label = "Vertical Average", alpha = 1, color= (0,0.1,1))
+ax.plot(days[:105102], v1_power[:105102], label = "Vertical 1", alpha = 0.2, color= (0,0.2,0.5))
+ax.plot(days[:105102], v2_power[:105102], label = "Vertical 2", alpha = 0.2, color= (0,0.4,0.5))
+ax.plot(days[:105102], v3_power[:105102], label = "Vertical 3", alpha = 0.2, color= (0,0.6,0.5))
 
-plt.plot(days[:105102], planar_ave[:105102], label = "Horizontal Average", alpha = 1, color= (1,0.1,0))
-plt.plot(days[:105102], p1_power[:105102], label = "Horizontal 1", alpha = 0.2, color= (0.5,0.2,0))
-plt.plot(days[:105102], p2_power[:105102], label = "Horizontal 2", alpha = 0.2, color= (0.5,0.4,0))
-plt.plot(days[:105102], p3_power[:105102], label = "Horizontal 3", alpha = 0.2, color= (0.5,0.6,0))
-plt.legend("upper left")
-#rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
-# rc('font',**{'family':'serif','serif':['Times']})
-# rc('text', usetex=True)
+ax.plot(days[:105102], planar_ave[:105102], label = "Horizontal Average", alpha = 1, color= (1,0.1,0))
+ax.plot(days[:105102], p1_power[:105102], label = "Horizontal 1", alpha = 0.2, color= (0.5,0.2,0))
+ax.plot(days[:105102], p2_power[:105102], label = "Horizontal 2", alpha = 0.2, color= (0.5,0.4,0))
+ax.plot(days[:105102], p3_power[:105102], label = "Horizontal 3", alpha = 0.2, color= (0.5,0.6,0))
+ax.legend("upper left")
 
 #example of vertical line plotting
 # ax.axvspan(8, 14, alpha=0.5, color='red')
@@ -95,8 +126,21 @@ plt.axvspan(74.551516, 85, color = 'yellow', alpha = 0.2)
 # 1. We don't need the lines to show up in legend
 # 2. We want to label or even maybe shade in regions on the graphs (e.g. between the vertical lines)
 
-plt.ylabel('Power (µW)')
-plt.xlabel('Timeline (Days)')
+#import custom font
+from matplotlib import font_manager
+font_path = './font/linux_libertine/LinLibertine_R.ttf'  # the location of the font file
+my_font = font_manager.FontProperties(fname=font_path, size=12)  # get the font based on the font_path, set font size
 
-plt.legend()
+#set font type of x and y axis
+plt.ylabel('Power (µW)', fontproperties=my_font)
+plt.xlabel('Timeline (Days)', fontproperties=my_font)
+
+#set font type of tickmarks
+for label in ax.get_xticklabels():
+    label.set_fontproperties(my_font)
+for label in ax.get_yticklabels():
+    label.set_fontproperties(my_font)
+
+#set font type of legend
+plt.legend(prop=my_font)
 plt.show()
