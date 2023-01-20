@@ -41,12 +41,23 @@ for i in range(0, len(v2)):
 #          v2_volt[i] = (v2_volt[i-1]+v2_volt[i+1])/2
 
 # 1: 1655413184 to 1655414787 (about 27 minutes)
+'''
 i = 9731
 start = 9731
 slope = (v2_volt[9757]-v2_volt[9731])/(days[9757]-days[9731])
 for v in v2_volt[9731:9758]:
-    v2_volt[i] = slope*(days[i]-days[start]) + v2_volt[9757]
+    v2_volt[i] = slope*(days[i]-days[start]) + v2_volt[9757] #weird sadie math
     i += 1
+'''
+# New stuff that works (?)
+i = 9731
+start = 9731
+end = 9758
+slope = (v2_volt[start-1]-v2_volt[end+1])/(days[start-1]-days[end+1])
+for v in v2_volt[9731:9758]:
+    v2_volt[i] = slope*(days[i]-days[start-1])+v2_volt[start-1]
+    i += 1
+
 
 # # 2
 i = 60599
@@ -175,16 +186,17 @@ p_ave = butter_lowpass_filter(planar_ave, cutoff, fs, order)
 
 # # plot line
 fig, ax = plt.subplots()
-ax.plot(days[:105102], v_ave[:105102], label = "Vertical Average", alpha = 1, color= (0,0.1,1))
-ax.plot(days[:105102], y1[:105102], label = "Vertical 1", alpha = 0.2, color= (0,0.2,0.5))
+#ax.plot(days[:105102], v_ave[:105102], label = "Vertical Average", alpha = 1, color= (0,0.1,1))
+#ax.plot(days[:105102], y1[:105102], label = "Vertical 1", alpha = 0.2, color= (0,0.2,0.5))
 # plt.plot(days[:105102], v2_power[:105102], label = "Vertical 2", alpha = 0.2, color= (0,0.4,0.5))
-ax.plot(days[:105102], y2[:105102], label='Vertical 2', alpha = 0.2, color= (0,0.4,0.5))
-ax.plot(days[:105102], y3[:105102], label = "Vertical 3", alpha = 0.2, color= (0,0.6,0.5))
+#ax.plot(days[:105102], y2[:105102], label='Vertical 2', alpha = 1, color= (0,0.4,0.5))
+ax.plot(days[:105102], v2_volt[:105102], label='Vertical 2 Raw', alpha = 1, color= (1,0,0))
+#ax.plot(days[:105102], y3[:105102], label = "Vertical 3", alpha = 0.2, color= (0,0.6,0.5))
 
-ax.plot(days[:105102], p_ave[:105102], label = "Horizontal Average", alpha = 1, color= (1,0.1,0))
-ax.plot(days[:105102], y4[:105102], label = "Horizontal 1", alpha = 0.2, color= (0.5,0.2,0))
-ax.plot(days[:105102], y5[:105102], label = "Horizontal 2", alpha = 0.2, color= (0.5,0.4,0))
-ax.plot(days[:105102], y6[:105102], label = "Horizontal 3", alpha = 0.2, color= (0.5,0.6,0))
+#ax.plot(days[:105102], p_ave[:105102], label = "Horizontal Average", alpha = 1, color= (1,0.1,0))
+#ax.plot(days[:105102], y4[:105102], label = "Horizontal 1", alpha = 0.2, color= (0.5,0.2,0))
+#ax.plot(days[:105102], y5[:105102], label = "Horizontal 2", alpha = 0.2, color= (0.5,0.4,0))
+#ax.plot(days[:105102], y6[:105102], label = "Horizontal 3", alpha = 0.2, color= (0.5,0.6,0))
 ax.legend("upper left")
 
 #example of vertical line plotting
