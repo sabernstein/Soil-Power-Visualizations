@@ -15,6 +15,20 @@ with open('Final_Data/v2_Data.csv') as f:
                 columns[k].append(v) # append the value into the appropriate list
                                  # based on column name k
 
+x2 = columns['unix_time']
+d0 = datetime.fromtimestamp(int(x2[0]))
+days = []
+
+unix_time = []
+for t in x2:
+    unix_time.append(int(t))
+
+for d in x2:
+    day = datetime.fromtimestamp(int(d))
+    day_from_start = day-d0
+    decimal_day = day_from_start.total_seconds()/(24 * 3600)
+    days.append(decimal_day)
+
 v2 = columns['v2']
 v2_volt = []
 for i in range(0, len(v2)):
@@ -26,13 +40,66 @@ for i in range(0, len(v2_volt)):
     if v2_volt[i] < -200:
          v2_volt[i] = (v2_volt[i-1]+v2_volt[i+1])/2
 
+
+
+# # 1: 1655413184 to 1655414787 (about 27 minutes)
+# i = 9731
+# start = 9731
+# slope = (v2_volt[9757]-v2_volt[9731])/(days[9757]-days[9731])
+# for v in v2_volt[9731:9758]:
+#     v2_volt[i] = slope*(days[i]-start) + v2_volt[9757]
+#     i += 1
+
+# # 2
+# i = 60599
+# start = 60599
+# slope = (v2_volt[60604]-v2_volt[60599])/(days[60604]-days[60599])
+# for v in v2_volt[60599:60605]:
+#     v2_volt[i] = slope*(days[i]-start) + v2_volt[60604]
+#     i += 1
+
+# # 3
+# i = 64557
+# start = 64557
+# slope = (v2_volt[64572]-v2_volt[64557])/(days[64572]-days[64557])
+# for v in v2_volt[64557:64573]:
+#     v2_volt[i] = slope*(days[i]-start) + v2_volt[64572]
+#     i += 1
+
+# # 4
+# i = 70057
+# start = 70057
+# slope = (v2_volt[70078]-v2_volt[70057])/(days[70078]-days[70057])
+# for v in v2_volt[70079:64573]:
+#     v2_volt[i] = slope*(days[i]-start) + v2_volt[70078]
+#     i += 1git
+
 v2_power = []
 for v in v2_volt:
     v2_power.append(v*(v/2000))
 
-x2 = columns['unix_time']
-d0 = datetime.fromtimestamp(int(x2[0]))
-days = []
+# x2 = columns['unix_time']
+# d0 = datetime.fromtimestamp(int(x2[0]))
+# days = []
+
+# unix_time = []
+# for t in x2:
+#     unix_time.append(int(t))
+
+# for d in x2:
+#     day = datetime.fromtimestamp(int(d))
+#     day_from_start = day-d0
+#     decimal_day = day_from_start.total_seconds()/(24 * 3600)
+#     days.append(decimal_day)
+
+# i = 0
+# slope = (v2_power[9757]/v2_power[9731])/()
+# for p in v2_power[9731:9758]:
+
+
+# for i,t in enumerate(unix_time):
+#     while t >= 1655413184 or t <= 1655414787:
+#         print(i)
 
 
 v1 = columns['Vertical 1']
@@ -62,11 +129,9 @@ for i in range(0, len(v3_power)):
     vertical_ave.append((v1_power[i] + v2_power[i] + v3_power[i])/3)
     planar_ave.append((p1_power[i] + p2_power[i] + p3_power[i])/3)
 
-for d in x2:
-    day = datetime.fromtimestamp(int(d))
-    day_from_start = day-d0
-    decimal_day = day_from_start.total_seconds()/(24 * 3600)
-    days.append(decimal_day)
+
+
+
 
 def butter_lowpass(cutoff, fs, order=5):
     return butter(order, cutoff, fs=fs, btype='low', analog=False)
