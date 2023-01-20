@@ -34,82 +34,43 @@ v2_volt = []
 for i in range(0, len(v2)):
     v2_volt.append(float(v2[i]))
 
-# for i in range(0, len(v2_volt)):
-#     if v2_volt[i] < 0:
-#         v2_volt[i] = v2_volt[i]
-#     if v2_volt[i] < -200:
-#          v2_volt[i] = (v2_volt[i-1]+v2_volt[i+1])/2
+# Removal of big spikes for vertical 2 cells
 
-# 1: 1655413184 to 1655414787 (about 27 minutes)
-'''
 i = 9731
-start = 9731
-slope = (v2_volt[9757]-v2_volt[9731])/(days[9757]-days[9731])
-for v in v2_volt[9731:9758]:
-    v2_volt[i] = slope*(days[i]-days[start]) + v2_volt[9757] #weird sadie math
-    i += 1
-'''
-# New stuff that works (?)
-i = 9731
-start = 9731
-end = 9758
-slope = (v2_volt[start-1]-v2_volt[end+1])/(days[start-1]-days[end+1])
-for v in v2_volt[9731:9758]:
-    v2_volt[i] = slope*(days[i]-days[start-1])+v2_volt[start-1]
+start = 9730
+end = 9759
+slope = (v2_volt[start]-v2_volt[end])/(days[start]-days[end])
+for v in v2_volt[start:end+1]:
+    v2_volt[i] = slope*(days[i]-days[start])+v2_volt[start]
     i += 1
 
-
-# # 2
 i = 60599
-start = 60599
-slope = (v2_volt[60604]-v2_volt[60599])/(days[60604]-days[60599])
-for v in v2_volt[60599:60605]:
-    v2_volt[i] = slope*(days[i]-days[start]) + v2_volt[60604]
+start = 60598
+end = 60605
+slope = (v2_volt[start]-v2_volt[end])/(days[start]-days[end])
+for v in v2_volt[start:end+1]:
+    v2_volt[i] = slope*(days[i]-days[start]) + v2_volt[start]
     i += 1
 
-# # 3
 i = 64557
-start = 64557
-slope = (v2_volt[64572]-v2_volt[64557])/(days[64572]-days[64557])
-for v in v2_volt[64557:64573]:
-    v2_volt[i] = slope*(days[i]-days[start]) + v2_volt[64572]
+start = 64556
+end = 64573
+slope = (v2_volt[start]-v2_volt[end])/(days[start]-days[end])
+for v in v2_volt[start:end+1]:
+    v2_volt[i] = slope*(days[i]-days[start]) + v2_volt[start]
     i += 1
 
-# # 4
-i = 70057
-start = 70057
-slope = (v2_volt[70078]-v2_volt[70057])/(days[70078]-days[70057])
-for v in v2_volt[70079:64573]:
-    v2_volt[i] = slope*(days[i]-days[start]) + v2_volt[70078]
+i = 70043
+start = 70042
+end = 70087
+slope = (v2_volt[start]-v2_volt[end])/(days[start]-days[end])
+for v in v2_volt[start:end+1]:
+    v2_volt[i] = slope*(days[i]-days[start]) + v2_volt[start]
     i += 1
 
 v2_power = []
 for v in v2_volt:
     v2_power.append(v*(v/2000))
-
-# x2 = columns['unix_time']
-# d0 = datetime.fromtimestamp(int(x2[0]))
-# days = []
-
-# unix_time = []
-# for t in x2:
-#     unix_time.append(int(t))
-
-# for d in x2:
-#     day = datetime.fromtimestamp(int(d))
-#     day_from_start = day-d0
-#     decimal_day = day_from_start.total_seconds()/(24 * 3600)
-#     days.append(decimal_day)
-
-# i = 0
-# slope = (v2_power[9757]/v2_power[9731])/()
-# for p in v2_power[9731:9758]:
-
-
-# for i,t in enumerate(unix_time):
-#     while t >= 1655413184 or t <= 1655414787:
-#         print(i)
-
 
 v1 = columns['Vertical 1']
 v3 = columns['Vertical 3']
@@ -137,10 +98,6 @@ for i in range(0, len(v3)):
 for i in range(0, len(v3_power)):
     vertical_ave.append((v1_power[i] + v2_power[i] + v3_power[i])/3)
     planar_ave.append((p1_power[i] + p2_power[i] + p3_power[i])/3)
-
-
-
-
 
 def butter_lowpass(cutoff, fs, order=5):
     return butter(order, cutoff, fs=fs, btype='low', analog=False)
@@ -179,24 +136,19 @@ y6 = butter_lowpass_filter(p3_power, cutoff, fs, order)
 v_ave = butter_lowpass_filter(vertical_ave, cutoff, fs, order)
 p_ave = butter_lowpass_filter(planar_ave, cutoff, fs, order)
 
-# plt.plot(days[:105102], v2_power[:105102], 'b-', label='data')
-# plt.plot(days[:105102], y[:105102], 'g-', linewidth=2, label='filtered data')
-
-
-
 # # plot line
 fig, ax = plt.subplots()
-#ax.plot(days[:105102], v_ave[:105102], label = "Vertical Average", alpha = 1, color= (0,0.1,1))
-#ax.plot(days[:105102], y1[:105102], label = "Vertical 1", alpha = 0.2, color= (0,0.2,0.5))
-# plt.plot(days[:105102], v2_power[:105102], label = "Vertical 2", alpha = 0.2, color= (0,0.4,0.5))
-#ax.plot(days[:105102], y2[:105102], label='Vertical 2', alpha = 1, color= (0,0.4,0.5))
-ax.plot(days[:105102], v2_volt[:105102], label='Vertical 2 Raw', alpha = 1, color= (1,0,0))
-#ax.plot(days[:105102], y3[:105102], label = "Vertical 3", alpha = 0.2, color= (0,0.6,0.5))
+ax.plot(days[:105102], v_ave[:105102], label = "Vertical Average", alpha = 1, color= (0,0.1,1))
+ax.plot(days[:105102], y1[:105102], label = "Vertical 1", alpha = 0.2, color= (0,0.2,0.5))
+plt.plot(days[:105102], v2_power[:105102], label = "Vertical 2", alpha = 0.2, color= (0,0.4,0.5))
+ax.plot(days[:105102], y2[:105102], label='Vertical 2', alpha = 1, color= (0,0.4,0.5))
+# ax.plot(days[:105102], v2_volt[:105102], label='Vertical 2 Raw', alpha = 1, color= (1,0,0))
+ax.plot(days[:105102], y3[:105102], label = "Vertical 3", alpha = 0.2, color= (0,0.6,0.5))
 
-#ax.plot(days[:105102], p_ave[:105102], label = "Horizontal Average", alpha = 1, color= (1,0.1,0))
-#ax.plot(days[:105102], y4[:105102], label = "Horizontal 1", alpha = 0.2, color= (0.5,0.2,0))
-#ax.plot(days[:105102], y5[:105102], label = "Horizontal 2", alpha = 0.2, color= (0.5,0.4,0))
-#ax.plot(days[:105102], y6[:105102], label = "Horizontal 3", alpha = 0.2, color= (0.5,0.6,0))
+ax.plot(days[:105102], p_ave[:105102], label = "Horizontal Average", alpha = 1, color= (1,0.1,0))
+ax.plot(days[:105102], y4[:105102], label = "Horizontal 1", alpha = 0.2, color= (0.5,0.2,0))
+ax.plot(days[:105102], y5[:105102], label = "Horizontal 2", alpha = 0.2, color= (0.5,0.4,0))
+ax.plot(days[:105102], y6[:105102], label = "Horizontal 3", alpha = 0.2, color= (0.5,0.6,0))
 ax.legend("upper left")
 
 #example of vertical line plotting
