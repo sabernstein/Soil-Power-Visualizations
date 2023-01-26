@@ -82,7 +82,7 @@ days = days_temp + days_to_add + days_temp2
 h1_volt_temp = list(partial_h1_volt[:53051])
 h1_volt_temp2 = list(partial_h1_volt[53051:])
 h1_volt_to_add = list(h1_volt_to_add)
-h1_volt = h1_volt_temp + h2_volt_to_add + h1_volt_temp2
+h1_volt = h1_volt_temp + h1_volt_to_add + h1_volt_temp2
 
 h2_volt_temp = list(partial_h2_volt[:53051])
 h2_volt_temp2 = list(partial_h2_volt[53051:])
@@ -215,8 +215,11 @@ fig, ax = plt.subplots()
 
 # ax.plot(days[:105102], p_ave[:105102], label = "Horizontal Average", alpha = 1, color= (1,0.1,0))
 ax.plot(days[:105102], y4[:105102], label = "Horizontal 1", alpha = 1, color= (0.5,0.2,0))
+#ax.plot(days[:105102], h1_volt[:105102], label = "Horizontal 1 V", alpha = 1, color= (1, 0, 0))
+#ax.plot(days[:105102], h2_volt[:105102], label = "Horizontal 2 V", alpha = 1, color= (0, 1, 0))
+#ax.plot(days[:105102], h3_volt[:105102], label = "Horizontal 3 V", alpha = 1, color= (0, 0, 1))
 ax.plot(days[:105102], y5[:105102], label = "Horizontal 2", alpha = 1, color="red")
-ax.plot(days[:105102], y6[:105102], label = "Horizontal 2", alpha = 1, color= (0.5,0.4,0))
+ax.plot(days[:105102], y6[:105102], label = "Horizontal 3", alpha = 1, color= (0.5,0.4,0))
 # ax.plot(days[:105102], p3_power[:105102], label = "Horizontal 3", alpha = 0.2, color= (0.5,0.6,0))
 ax.legend("upper left")
 
