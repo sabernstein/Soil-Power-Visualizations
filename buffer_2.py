@@ -1,12 +1,12 @@
 import csv
-from collections import defaultdict
-import numpy as np
-from scipy.signal import butter, lfilter, freqz
 import matplotlib.pyplot as plt
-from datetime import datetime
 import numpy as geek
+import numpy as np
+from scipy.signal import butter, lfilter
+from collections import defaultdict
+from datetime import datetime
 
-columns = defaultdict(list) # each value in each column is appended to a list
+columns = defaultdict(list) 
 
 with open('Final_Data/v2_Data.csv') as f:
     reader = csv.DictReader(f) # read rows into a dictionary format
