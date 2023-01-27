@@ -151,7 +151,7 @@ my_font = font_manager.FontProperties(fname=font_path, size=12)  # get the font 
 
 #set font type of x and y axis
 plt.ylabel('Power (µW)', fontproperties=my_font)
-plt.xlabel('Experimental Timeline (Days)', fontproperties=my_font)
+plt.xlabel('Timeline (Days)', fontproperties=my_font)
 
 #set font type of tickmarks
 for label in ax.get_xticklabels():

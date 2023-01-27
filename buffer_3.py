@@ -126,19 +126,29 @@ p_ave = butter_lowpass_filter(planar_ave, cutoff, fs, order)
 
 # # plot line
 fig, ax = plt.subplots()
-ax.plot(days[:105102], v_ave[:105102], label = "Vertical Average", alpha = 1, color= (0,0.1,1))
-ax.plot(days[:105102], y1[:105102], label = "Vertical 1", alpha = 0.2, color= (0,0.2,0.5))
-ax.plot(days[:105102], y2[:105102], label='Vertical 2', alpha = 0.2, color= (0,0.4,0.5))
-ax.plot(days[:105102], y3[:105102], label = "Vertical 3", alpha = 0.2, color= (0,0.6,0.5))
+ax.plot(days[:115102], v_ave[:115102], label = "Vertical Average", alpha = 1, color= (0,0.1,1))
+ax.plot(days[:115102], y1[:115102], label = "Vertical 1", alpha = 0.2, color= (0,0.2,0.5))
+ax.plot(days[:115102], y2[:115102], label='Vertical 2', alpha = 0.2, color= (0,0.4,0.5))
+ax.plot(days[:115102], y3[:115102], label = "Vertical 3", alpha = 0.2, color= (0,0.6,0.5))
 
-ax.plot(days[:105102], p_ave[:105102], label = "Horizontal Average", alpha = 1, color= (1,0.1,0))
-ax.plot(days[:105102], y4[:105102], label = "Horizontal 1", alpha = 0.2, color= (0.5,0.2,0))
-ax.plot(days[:105102], y5[:105102], label = "Horizontal 2", alpha = 0.2, color= (0.5,0.4,0))
-ax.plot(days[:105102], y6[:105102], label = "Horizontal 3", alpha = 0.2, color= (0.5,0.6,0))
+ax.plot(days[:115102], p_ave[:115102], label = "Horizontal Average", alpha = 1, color= (1,0.1,0))
+ax.plot(days[:115102], y4[:115102], label = "Horizontal 1", alpha = 0.2, color= (0.5,0.2,0))
+ax.plot(days[:115102], y5[:115102], label = "Horizontal 2", alpha = 0.2, color= (0.5,0.4,0))
+ax.plot(days[:115102], y6[:115102], label = "Horizontal 3", alpha = 0.2, color= (0.5,0.6,0))
+# ax.plot(days[:115102], v_ave[:115102],  alpha = 1, color= (0,0.1,1))
+# ax.plot(days[:115102], y1[:115102],  alpha = 0.2, color= (0,0.2,0.5))
+# ax.plot(days[:115102], y2[:115102], alpha = 0.2, color= (0,0.4,0.5))
+# ax.plot(days[:115102], y3[:115102],  alpha = 0.2, color= (0,0.6,0.5))
 
-
+# ax.plot(days[:115102], p_ave[:115102],  alpha = 1, color= (1,0.1,0))
+# ax.plot(days[:115102], y4[:115102],  alpha = 0.2, color= (0.5,0.2,0))
+# ax.plot(days[:115102], y5[:115102],  alpha = 0.2, color= (0.5,0.4,0))
+# ax.plot(days[:115102], y6[:115102],  alpha = 0.2, color= (0.5,0.6,0))
+# ax.legend(loc='upper left')
+# ax.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0)
+# fig.legend(bbox_to_anchor=(1.05, 1), loc='upper left', borderaxespad=0)
 ax.legend("upper left")
-print(days[len(days)-1])
+
 # print(days[35048])
 # print(days[64603])
 #example of vertical line plotting
@@ -146,9 +156,9 @@ print(days[len(days)-1])
 # started drying cells'
 # plt.axvline(x = 25.536006944444445, alpha = 0.2, color = 'yellow')
 # # label = 'reflooded cells'
-plt.axvspan(0, 25.536006944444445, label = "Flooded", color = 'blue', alpha = 0.1)
-plt.axvspan(25.536006944444445, 46.53662037037037, label = "Drying", color = 'yellow', alpha = 0.2)
-plt.axvspan(46.53662037037037, 61.43189814814815, color = 'blue', alpha = 0.1)
+plt.axvspan(0, 25.536006944444445, color = 'blue', alpha = 0.1)
+plt.axvspan(25.536006944444445, 46.53662037037037, color = 'yellow', alpha = 0.2)
+plt.axvspan(46.53662037037037, 64.05, color = 'blue', alpha = 0.1)
 # # label = 'started drying again'
 # plt.axvspan(74.551516, 85, color = 'yellow', alpha = 0.2)
 
@@ -159,7 +169,11 @@ my_font = font_manager.FontProperties(fname=font_path, size=12)  # get the font 
 
 #set font type of x and y axis
 plt.ylabel('Power (µW)', fontproperties=my_font)
-plt.xlabel('Experimental Timeline (Days)', fontproperties=my_font)
+plt.xlabel('Timeline (Days)', fontproperties=my_font)
+
+plt.text(10.17, 229.7, 'Flooded', fontsize = 12,  fontproperties=my_font)
+plt.text(35.23, 229.7, 'Drying', fontsize = 12,  fontproperties=my_font)
+plt.text(53.36, 229.7, 'Flooded', fontsize = 12,  fontproperties=my_font)
 
 #set font type of tickmarks
 for label in ax.get_xticklabels():
@@ -168,5 +182,5 @@ for label in ax.get_yticklabels():
     label.set_fontproperties(my_font)
 
 #set font type of legend
-plt.legend(prop=my_font)
+plt.legend(loc="upper left", prop=my_font)
 plt.show()
