@@ -27,7 +27,7 @@ end_plot = datetime.date(2021,5,19)
 names = ["cell_5-6", "cell_7-8"]
 #soil_20210421-151655_2.csv
 #soil_20210628-132731_6.csv
-fnames = [["D:/Research/IMWUT 2022 Paper/Data/Preliminary Study/soil_20210503-150618_3.csv"]]#, "D:/Research/IMWUT 2022 Paper/Data/Preliminary Study/soil_20210628-152118_2.csv"]]
+fnames = [["Final_Data/Prelim_Studies_Data.csv"]]#, "D:/Research/IMWUT 2022 Paper/Data/Preliminary Study/soil_20210628-152118_2.csv"]]
 # cell 1 and 2: 20210628, 20210813
 # cell 3 and 4: 20210503, 20210813
 # cell 5 and 6: starting on 20210628,20210716,20210813
@@ -59,7 +59,7 @@ for i in range(0,1):
     #new_pkl = f"../pkl/soil_data_{names[i]}_{dates}.pkl"
     soil_data = None
     # plot name
-    plot_name = f"D:/Research/IMWUT 2022 Paper/Data/Preliminary Study/{names[i]}_{dates}_zoomin.png"
+    # plot_name = f"D:/Research/IMWUT 2022 Paper/Data/Preliminary Study/{names[i]}_{dates}_zoomin.png"
     for fname in fnames[i]:
         print(fname)
         data = np.genfromtxt(fname, dtype=float, delimiter=',',skip_header=11, invalid_raise=False)

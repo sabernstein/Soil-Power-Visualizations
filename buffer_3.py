@@ -158,7 +158,7 @@ ax.legend("upper left")
 # # label = 'reflooded cells'
 plt.axvspan(0, 25.536006944444445, color = 'blue', alpha = 0.1)
 plt.axvspan(25.536006944444445, 46.53662037037037, color = 'yellow', alpha = 0.2)
-plt.axvspan(46.53662037037037, 64.05, color = 'blue', alpha = 0.1)
+plt.axvspan(46.53662037037037, 67, color = 'blue', alpha = 0.1)
 # # label = 'started drying again'
 # plt.axvspan(74.551516, 85, color = 'yellow', alpha = 0.2)
 
