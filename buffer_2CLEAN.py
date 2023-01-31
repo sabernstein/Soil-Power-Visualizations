@@ -257,22 +257,24 @@ plt.axvspan(74.551516, 85, color = 'yellow', alpha = 0.2)
 
 #import custom font
 from matplotlib import font_manager
-font_path = './font/linux_libertine/LinLibertine_R.ttf'  # the location of the font file
-my_font = font_manager.FontProperties(fname=font_path, size=12)  # get the font based on the font_path, set font size
+font_path = './font/linux_libertine/LinLibertine_RB.ttf'  # the location of the font file
+my_font = font_manager.FontProperties(fname=font_path, size=13)  # get the font based on the font_path, set font size
 
+font_path2 = './font/linux_libertine/LinLibertine_R.ttf'  # the location of the font file
+my_font2 = font_manager.FontProperties(fname=font_path2, size=13)  # get the font based on the font_path, set font size
 #set font type of x and y axis
 plt.ylabel('Power (µW)', fontproperties=my_font)
 plt.xlabel('Timeline (Days)', fontproperties=my_font)
 #adding text inside the plot
-plt.text(22.11, 245.5, 'Flooded', fontsize = 12,  fontproperties=my_font)
-plt.text(52.25, 245.5, 'Drying', fontsize = 12,  fontproperties=my_font)
-plt.text(64.47, 245.5, 'Flooded', fontsize = 12,  fontproperties=my_font)
-plt.text(77.5, 245.5, 'Drying', fontsize = 12,  fontproperties=my_font)
+plt.text(22.11, 245.5, 'Flooded', fontsize = 18,  fontproperties=my_font)
+plt.text(51.25, 245.5, 'Drying', fontsize = 18,  fontproperties=my_font)
+plt.text(63, 245.5, 'Flooded', fontsize = 18,  fontproperties=my_font)
+plt.text(76.5, 245.5, 'Drying', fontsize = 18,  fontproperties=my_font)
 #set font type of tickmarks
 for label in ax.get_xticklabels():
-    label.set_fontproperties(my_font)
+    label.set_fontproperties(my_font2)
 for label in ax.get_yticklabels():
-    label.set_fontproperties(my_font)
+    label.set_fontproperties(my_font2)
 
 #set font type of legend
 plt.legend(prop=my_font)

@@ -155,6 +155,13 @@ power2_filtered = butter_lowpass_filter(power2, cutoff, fs, order)
 # fig, ax1 = plt.subplots(figsize=(8, 8))
 # ax2 = ax1.twinx()
 # ax3 = ax1.twinx()
+#import custom font
+from matplotlib import font_manager
+font_path = './font/linux_libertine/LinLibertine_RB.ttf'  # the location of the font file
+my_font = font_manager.FontProperties(fname=font_path, size=13)  # get the font based on the font_path, set font size
+
+font_path2 = './font/linux_libertine/LinLibertine_R.ttf'  # the location of the font file
+my_font2 = font_manager.FontProperties(fname=font_path2, size=13)  # get the font based on the font_path, set font size
 
 fig, (ax1, ax2) = plt.subplots(2)
 
@@ -162,38 +169,40 @@ fig, (ax1, ax2) = plt.subplots(2)
 # ax2.plot(x, -y)
 
 
-ax1.plot(days2[:1048555], power1_filtered, label = "Cell 1 Power", alpha = 1, color= "green")
-ax1.plot(days2[:1048555], power2_filtered, label = "Cell 2 Power", alpha = 1, color= "blue")
-ax2.plot(days[1800:], vwc_filtered[1800:], label = "VMC", alpha = 1, color= "red")
+ax1.plot(days2[:1048555], power1_filtered, label = "Cell 1", alpha = 1, color= "green")
+ax1.plot(days2[:1048555], power2_filtered, label = "Cell 2", alpha = 1, color= "blue")
+ax2.plot(days[1800:190979], vwc_filtered[1800:190979], alpha = 1, color= "red")
+
+# ax2.set_xlim(xmax=)
 ax2.set_ylim(ymin=0)
 ax2.set_ylim(ymax=80)
-ax1.legend()
-ax2.legend()
-# ax3.legend()
+ax1.legend(loc="upper left", prop=my_font)
 
-for d in days:
-    if d > 0.1 and d < 0.12:
-        i = days.index(d)
-        print("vwc is " + str(vwc_filtered[i]) + " at index " + str(i))
+
+# ax3.legend()
 
 # ax.legend("upper left")
 
-#import custom font
-from matplotlib import font_manager
-font_path = './font/linux_libertine/LinLibertine_R.ttf'  # the location of the font file
-my_font = font_manager.FontProperties(fname=font_path, size=12)  # get the font based on the font_path, set font size
 
+# ax1.legend(prop={'family':my_font, 'size':20})
 #set font type of x and y axis
 # plt.ylabel('Volumetric Water Content', fontproperties=my_font)
 ax2.set_ylabel('Volumetric Water Content (%)', fontproperties=my_font)
 ax1.set_ylabel('Power (µW)', fontproperties=my_font)
+
 plt.xlabel('Timeline (Days)', fontproperties=my_font)
 
 #set font type of tickmarks
+
 for label in ax1.get_xticklabels():
-    label.set_fontproperties(my_font)
+    label.set_fontproperties(my_font2)
 for label in ax1.get_yticklabels():
-    label.set_fontproperties(my_font)
+    label.set_fontproperties(my_font2)
+
+for label in ax2.get_xticklabels():
+    label.set_fontproperties(my_font2)
+for label in ax2.get_yticklabels():
+    label.set_fontproperties(my_font2)
 
 #set font type of legend
 # plt.legend(prop=my_font)
