@@ -21,11 +21,11 @@ unix_time = []
 for t in x2:
     unix_time.append(int(float(t)))
 
-for t in unix_time:
-    if datetime.fromtimestamp(t).day == 10 and datetime.fromtimestamp(t).month == 1:
-        print(datetime.fromtimestamp(t))
-        print(unix_time.index(t))
-        break
+# for t in unix_time:
+#     if datetime.fromtimestamp(t).day == 30 and datetime.fromtimestamp(t).month == 1:
+#         print(datetime.fromtimestamp(t))
+#         print(unix_time.index(t))
+
 
 d0 = datetime.fromtimestamp(unix_time[0])
 days = []
@@ -126,15 +126,15 @@ p_ave = butter_lowpass_filter(planar_ave, cutoff, fs, order)
 
 # # plot line
 fig, ax = plt.subplots()
-ax.plot(days[:115102], v_ave[:115102], label = "Vertical Average", alpha = 1, color= (0,0.1,1))
-ax.plot(days[:115102], y1[:115102], label = "Vertical 1", alpha = 0.2, color= (0,0.2,0.5))
-ax.plot(days[:115102], y2[:115102], label='Vertical 2', alpha = 0.2, color= (0,0.4,0.5))
-ax.plot(days[:115102], y3[:115102], label = "Vertical 3", alpha = 0.2, color= (0,0.6,0.5))
+ax.plot(days, v_ave, label = "Vertical Average", alpha = 1, color= (0,0.1,1))
+ax.plot(days, y1, label = "Vertical 1", alpha = 0.2, color= (0,0.2,0.5))
+ax.plot(days, y2, label='Vertical 2', alpha = 0.2, color= (0,0.4,0.5))
+ax.plot(days, y3, label = "Vertical 3", alpha = 0.2, color= (0,0.6,0.5))
 
-ax.plot(days[:115102], p_ave[:115102], label = "Horizontal Average", alpha = 1, color= (1,0.1,0))
-ax.plot(days[:115102], y4[:115102], label = "Horizontal 1", alpha = 0.2, color= (0.5,0.2,0))
-ax.plot(days[:115102], y5[:115102], label = "Horizontal 2", alpha = 0.2, color= (0.5,0.4,0))
-ax.plot(days[:115102], y6[:115102], label = "Horizontal 3", alpha = 0.2, color= (0.5,0.6,0))
+ax.plot(days, p_ave, label = "Horizontal Average", alpha = 1, color= (1,0.1,0))
+ax.plot(days, y4, label = "Horizontal 1", alpha = 0.2, color= (0.5,0.2,0))
+ax.plot(days, y5, label = "Horizontal 2", alpha = 0.2, color= (0.5,0.4,0))
+ax.plot(days, y6, label = "Horizontal 3", alpha = 0.2, color= (0.5,0.6,0))
 # ax.plot(days[:115102], v_ave[:115102],  alpha = 1, color= (0,0.1,1))
 # ax.plot(days[:115102], y1[:115102],  alpha = 0.2, color= (0,0.2,0.5))
 # ax.plot(days[:115102], y2[:115102], alpha = 0.2, color= (0,0.4,0.5))
@@ -158,7 +158,10 @@ ax.legend("upper left")
 # # label = 'reflooded cells'
 plt.axvspan(0, 25.536006944444445, color = 'blue', alpha = 0.1)
 plt.axvspan(25.536006944444445, 46.53662037037037, color = 'yellow', alpha = 0.2)
-plt.axvspan(46.53662037037037, 67, color = 'blue', alpha = 0.1)
+plt.axvspan(46.53662037037037, 67.1998263888889, color = 'blue', alpha = 0.1)
+plt.axvspan(67.1998263888889, 69.89245370370371, color = 'yellow', alpha = 0.2)
+
+
 # # label = 'started drying again'
 # plt.axvspan(74.551516, 85, color = 'yellow', alpha = 0.2)
 
