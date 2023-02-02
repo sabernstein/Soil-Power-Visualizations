@@ -41,7 +41,7 @@ date_correction = ["soil_20160616-092735_8.csv"]
 
 time_delta = {"soil_20160616-092735_8.csv": pd.to_timedelta('1951 days 06:08:00')}
 
-# Set color and style
+#  Set color and style
 volt_color= 'tab:blue'
 amp_color = 'tab:red'
 
@@ -81,7 +81,10 @@ for i in range(0,1):
         else:
             soil_data = pd.concat([soil_data, data])
     #soil_data.to_pickle(new_pkl)
-
+    power1 = []
+    for d in data['power1']:
+        power1.append(d)
+    print(power1)
     # moving average
     mv = soil_data.rolling(5*60).mean()
     print(f"Starting time:{mv.index[0]}")

@@ -146,18 +146,19 @@ ax.plot(days[:60000], y1[:60000], alpha = 1, color= (0,0.2,0.5))
 
 #import custom font
 from matplotlib import font_manager
-font_path = './font/linux_libertine/LinLibertine_R.ttf'  # the location of the font file
-my_font = font_manager.FontProperties(fname=font_path, size=12)  # get the font based on the font_path, set font size
-
+font_path = './font/linux_libertine/LinLibertine_RB.ttf'  # the location of the font file
+my_font = font_manager.FontProperties(fname=font_path, size=14)  # get the font based on the font_path, set font size
+font_path2 = './font/linux_libertine/LinLibertine_R.ttf'  # the location of the font file
+my_font2 = font_manager.FontProperties(fname=font_path2, size=14)  # get the font based on the font_path, set font size
 #set font type of x and y axis
 plt.ylabel('Power (µW)', fontproperties=my_font)
 plt.xlabel('Timeline (Days)', fontproperties=my_font)
 
 #set font type of tickmarks
 for label in ax.get_xticklabels():
-    label.set_fontproperties(my_font)
+    label.set_fontproperties(my_font2)
 for label in ax.get_yticklabels():
-    label.set_fontproperties(my_font)
+    label.set_fontproperties(my_font2)
 
 #set font type of legend
 # plt.legend(prop=my_font)
