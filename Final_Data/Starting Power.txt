@@ -1,0 +1,3 @@
+MSP430: 350 uA active current, 1 uA standby current, 3.3V input voltage = 1155 uW active power
+Ambiq Apollo 4: 840 uA active current, 0.419 deep sleep with RTC current, 3.3V input voltage = 2772 uW active power
+MARS: 1 uW
