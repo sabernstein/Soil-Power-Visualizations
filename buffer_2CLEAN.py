@@ -233,15 +233,15 @@ p_ave = butter_lowpass_filter(planar_ave, cutoff, fs, order)
 
 # # plot line
 fig, ax = plt.subplots()
-ax.plot(days[:115102], v_ave[:115102], label = "Vertical Average", alpha = 1, color= (0,0.1,1))
-ax.plot(days[:115102], y1[:115102], label = "Vertical 1", alpha = 0.2, color= (0,0.2,0.5))
-ax.plot(days[:115102], y2[:115102], label='Vertical 2', alpha = 0.2, color= (0,0.4,0.5))
-ax.plot(days[:115102], y3[:115102], label = "Vertical 3", alpha = 0.2, color= (0,0.6,0.5))
+ax.plot(days[:115102], v_ave[:115102], label = "Vert. Avg.", alpha = 1, color= (0,0.1,1))
+ax.plot(days[:115102], y1[:115102], label = "Vert. 1", alpha = 0.2, color= (0,0.2,0.5))
+ax.plot(days[:115102], y2[:115102], label='Vert. 2', alpha = 0.2, color= (0,0.4,0.5))
+ax.plot(days[:115102], y3[:115102], label = "Vert. 3", alpha = 0.2, color= (0,0.6,0.5))
 # ax.plot(days[:105102], h1_volt[:105102], label = "Horizontal 1 V", alpha = 1, color= (1, 0, 0))
-ax.plot(days[:115102], p_ave[:115102], label = "Horizontal Average", alpha = 1, color= (1,0.1,0))
-ax.plot(days[:115102], y4[:115102], label = "Horizontal 1", alpha = 0.2, color= (0.5,0.2,0))
-ax.plot(days[:115102], y5[:115102], label = "Horizontal 2", alpha = 0.2, color="red")
-ax.plot(days[:115102], y6[:115102], label = "Horizontal 3", alpha = 0.2, color= (0.5,0.4,0))
+ax.plot(days[:115102], p_ave[:115102], label = "Hori. Avg.", alpha = 1, color= (1,0.1,0))
+ax.plot(days[:115102], y4[:115102], label = "Hori. 1", alpha = 0.2, color= (0.5,0.2,0))
+ax.plot(days[:115102], y5[:115102], label = "Hori. 2", alpha = 0.2, color="red")
+ax.plot(days[:115102], y6[:115102], label = "Hori. 3", alpha = 0.2, color= (0.5,0.4,0))
 ax.legend("upper left")
 
 # started drying cells'
@@ -253,23 +253,25 @@ plt.axvspan(0, 50.153796,color = 'blue', alpha = 0.1)
 plt.axvspan(50, 58.886458, color = 'yellow', alpha = 0.2)
 plt.axvspan(58.886458, 74.551516, color = 'blue', alpha = 0.1)
 # label = 'started drying again'
-plt.axvspan(74.551516, 85, color = 'yellow', alpha = 0.2)
-
+plt.axvspan(74.551516, 83.43108796296296, color = 'yellow', alpha = 0.2)
+print(days[115102])
 #import custom font
 from matplotlib import font_manager
 font_path = './font/linux_libertine/LinLibertine_RB.ttf'  # the location of the font file
-my_font = font_manager.FontProperties(fname=font_path, size=13)  # get the font based on the font_path, set font size
+my_font = font_manager.FontProperties(fname=font_path, size=22)  # get the font based on the font_path, set font size
 
 font_path2 = './font/linux_libertine/LinLibertine_R.ttf'  # the location of the font file
-my_font2 = font_manager.FontProperties(fname=font_path2, size=13)  # get the font based on the font_path, set font size
+my_font2 = font_manager.FontProperties(fname=font_path2, size=22)  # get the font based on the font_path, set font size
 #set font type of x and y axis
 plt.ylabel('Power (µW)', fontproperties=my_font)
 plt.xlabel('Timeline (Days)', fontproperties=my_font)
 #adding text inside the plot
-plt.text(22.11, 245.5, 'Flooded', fontsize = 18,  fontproperties=my_font)
-plt.text(51.25, 245.5, 'Drying', fontsize = 18,  fontproperties=my_font)
-plt.text(63, 245.5, 'Flooded', fontsize = 18,  fontproperties=my_font)
-plt.text(76.5, 245.5, 'Drying', fontsize = 18,  fontproperties=my_font)
+plt.axhline(y=50, color='green', linestyle="dashed")
+plt.text(1.02, 52, 'MARS', size=20,  color='green', fontproperties=my_font)
+plt.text(22.11, 245.5, 'Flooded', fontsize = 22,  fontproperties=my_font)
+plt.text(51, 245.5, 'Drying', fontsize = 22,  fontproperties=my_font)
+plt.text(63, 245.5, 'Flooded', fontsize = 22,  fontproperties=my_font)
+plt.text(75.5, 245.5, 'Drying', fontsize = 22,  fontproperties=my_font)
 #set font type of tickmarks
 for label in ax.get_xticklabels():
     label.set_fontproperties(my_font2)

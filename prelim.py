@@ -158,10 +158,10 @@ power2_filtered = butter_lowpass_filter(power2, cutoff, fs, order)
 #import custom font
 from matplotlib import font_manager
 font_path = './font/linux_libertine/LinLibertine_RB.ttf'  # the location of the font file
-my_font = font_manager.FontProperties(fname=font_path, size=13)  # get the font based on the font_path, set font size
+my_font = font_manager.FontProperties(fname=font_path, size=21)  # get the font based on the font_path, set font size
 
 font_path2 = './font/linux_libertine/LinLibertine_R.ttf'  # the location of the font file
-my_font2 = font_manager.FontProperties(fname=font_path2, size=13)  # get the font based on the font_path, set font size
+my_font2 = font_manager.FontProperties(fname=font_path2, size=21)  # get the font based on the font_path, set font size
 
 fig, (ax1, ax2) = plt.subplots(2)
 

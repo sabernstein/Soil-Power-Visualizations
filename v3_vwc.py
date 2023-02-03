@@ -93,7 +93,6 @@ for i in range(0, len(v3_power)):
     vertical_ave.append((v1_power[i] + v2_power[i] + v3_power[i])/3)
     planar_ave.append((p1_power[i] + p2_power[i] + p3_power[i])/3)
 
-
 def butter_lowpass(cutoff, fs, order=5):
     return butter(order, cutoff, fs=fs, btype='low', analog=False)
 
@@ -105,7 +104,7 @@ def butter_lowpass_filter(data, cutoff, fs, order=5):
 # Filter requirements.
 order = 6
 fs = 1/60      # sample rate, Hz
-cutoff = 1/(12*3600)  # desired cutoff frequency of the filter, Hz
+cutoff = 1/(24*3600)  # desired cutoff frequency of the filter, Hz
 
 # Get the filter coefficients so we can check its frequency response.
 b, a = butter_lowpass(cutoff, fs, order)
@@ -120,6 +119,7 @@ t = np.linspace(0, T, n, endpoint=False)
 data = np.sin(1.2*2*np.pi*t) + 1.5*np.cos(9*2*np.pi*t) + 0.5*np.sin(12.0*2*np.pi*t)
 # new_v2 = np.array(v2_power)
 # Filter the data, and plot both the original and filtered signals.
+vwc_filter = butter_lowpass_filter(vwc, cutoff, fs, order)
 y1 = butter_lowpass_filter(v1_power, cutoff, fs, order)
 y2 = butter_lowpass_filter(v2_power, cutoff, fs, order)
 y3 = butter_lowpass_filter(v3_power, cutoff, fs, order)
@@ -128,53 +128,33 @@ y5 = butter_lowpass_filter(p2_power, cutoff, fs, order)
 y6 = butter_lowpass_filter(p3_power, cutoff, fs, order)
 v_ave = butter_lowpass_filter(vertical_ave, cutoff, fs, order)
 p_ave = butter_lowpass_filter(planar_ave, cutoff, fs, order)
-
-# # plot line
 fig, ax = plt.subplots()
-ax.plot(days, v_ave, label = "Vert. Avg.", alpha = 1, color= (0,0.1,1))
-ax.plot(days, y1, label = "Vert. 1", alpha = 0.2, color= (0,0.2,0.5))
-ax.plot(days, y2, label='Vert. 2', alpha = 0.2, color= (0,0.4,0.5))
-ax.plot(days, y3, label = "Vert. 3", alpha = 0.2, color= (0,0.6,0.5))
+ax.plot(vwc[93660:], v_ave[93660:], label = "Vert. Ave.", alpha = 1, color= (0,0.1,1))
+ax.plot(vwc[93660:], y1[93660:], label = "Vert. 1", alpha = 0.2, color= (0,0.2,0.5))
+ax.plot(vwc[93660:], y2[93660:], label='Vert. 2', alpha = 0.2, color= (0,0.4,0.5))
+ax.plot(vwc[93660:], y3[93660:], label = "Verti. 3", alpha = 0.2, color= (0,0.6,0.5))
 
-ax.plot(days, p_ave, label = "Hori. Avg.", alpha = 1, color= (1,0.1,0))
-ax.plot(days, y4, label = "Hori. 1", alpha = 0.2, color= (0.5,0.2,0))
-ax.plot(days, y5, label = "Hori. 2", alpha = 0.2, color= (0.5,0.4,0))
-ax.plot(days, y6, label = "Hori. 3", alpha = 0.2, color= (0.5,0.6,0))
+ax.plot(vwc[93660:], p_ave[93660:], label = "Hori. Ave.", alpha = 1, color= (1,0.1,0))
+ax.plot(vwc[93660:], y4[93660:], label = "Hori. 1", alpha = 0.2, color= (0.5,0.2,0))
+ax.plot(vwc[93660:], y5[93660:], label = "Hori. 2", alpha = 0.2, color= (0.5,0.4,0))
+ax.plot(vwc[93660:], y6[93660:], label = "Hori. 3", alpha = 0.2, color= (0.5,0.6,0))
 
-ax.legend("upper left")
-
-# print(days[35048])
-# print(days[64603])
-#example of vertical line plotting
-# ax.axvspan(8, 14, alpha=0.5, color='red')
-# started drying cells'
-# plt.axvline(x = 25.536006944444445, alpha = 0.2, color = 'yellow')
-# # label = 'reflooded cells'
-plt.axvspan(0, 25.536006944444445, color = 'blue', alpha = 0.1)
-plt.axvspan(25.536006944444445, 46.53662037037037, color = 'yellow', alpha = 0.2)
-plt.axvspan(46.53662037037037, 67.1998263888889, color = 'blue', alpha = 0.1)
-plt.axvspan(67.1998263888889, 69.89245370370371, color = 'yellow', alpha = 0.2)
-
-plt.axhline(y=50, color='green', linestyle="dashed")
-# # label = 'started drying again'
-# plt.axvspan(74.551516, 85, color = 'yellow', alpha = 0.2)
-
+# print(days.index(67.1998263888889))
 #import custom font
 from matplotlib import font_manager
 font_path = './font/linux_libertine/LinLibertine_RB.ttf'  # the location of the font file
-my_font = font_manager.FontProperties(fname=font_path, size=16)  # get the font based on the font_path, set font size
+my_font = font_manager.FontProperties(fname=font_path, size=18)  # get the font based on the font_path, set font size
 
 font_path2 = './font/linux_libertine/LinLibertine_R.ttf'  # the location of the font file
 my_font2 = font_manager.FontProperties(fname=font_path2, size=22)  # get the font based on the font_path, set font size
 
 #set font type of x and y axis
-plt.ylabel('Power (µW)', fontproperties=my_font, size=22)
-plt.xlabel('Timeline (Days)', fontproperties=my_font, size=22)
+plt.ylabel('Power (µW)', fontproperties=my_font)
+plt.xlabel('Volumetric Water Content (%)', fontproperties=my_font)
 
-plt.text(1.02, 52, 'MARS', size=20,  color='green', fontproperties=my_font)
-plt.text(9.17, 226.7, 'Flooded', size=20,  fontproperties=my_font)
-plt.text(33.53, 226.7, 'Drying',  size=20, fontproperties=my_font)
-plt.text(54.46, 226.7, 'Flooded',  size=20, fontproperties=my_font)
+# plt.text(11.17, 226.7, 'Flooded', size=18,  fontproperties=my_font)
+# plt.text(33.53, 226.7, 'Drying',  size=18, fontproperties=my_font)
+# plt.text(54.46, 226.7, 'Flooded',  size=18, fontproperties=my_font)
 
 #set font type of tickmarks
 for label in ax.get_xticklabels():
@@ -183,13 +163,6 @@ for label in ax.get_yticklabels():
     label.set_fontproperties(my_font2)
 
 #set font type of legend
-# plt.legend(loc="lower left", bbox_to_anchor=(0.75,0.27), prop=my_font)
-# Shrink current axis's height by 10% on the bottom
-box = ax.get_position()
-ax.set_position([box.x0, box.y0 + box.height * 0.1,
-                 box.width, box.height * 0.9])
-
-# Put a legend below current axis
-ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.125),
-          fancybox=True, ncol=8, prop=my_font)
+plt.legend(loc="upper left", prop=my_font)
+# ax.plot(days[93660:], vwc_filter[93660:], alpha = 1, color= (0,0.1,1))
 plt.show()
