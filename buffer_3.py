@@ -132,13 +132,15 @@ p_ave = butter_lowpass_filter(planar_ave, cutoff, fs, order)
 # # plot line
 fig, ax = plt.subplots()
 ax.plot(days, v_ave, label = "Vert. Avg.", alpha = 1, color= (0,0.1,1))
-ax.plot(days, y1, label = "Vert. 1", alpha = 0.2, color= (0,0.2,0.5))
-ax.plot(days, y2, label='Vert. 2', alpha = 0.2, color= (0,0.4,0.5))
-ax.plot(days, y3, label = "Vert. 3", alpha = 0.2, color= (0,0.6,0.5))
-
 ax.plot(days, p_ave, label = "Hori. Avg.", alpha = 1, color= (1,0.1,0))
+
+ax.plot(days, y1, label = "Vert. 1", alpha = 0.2, color= (0,0.2,0.5))
 ax.plot(days, y4, label = "Hori. 1", alpha = 0.2, color= (0.5,0.2,0))
+
+ax.plot(days, y2, label='Vert. 2', alpha = 0.2, color= (0,0.4,0.5))
 ax.plot(days, y5, label = "Hori. 2", alpha = 0.2, color= (0.5,0.4,0))
+
+ax.plot(days, y3, label = "Vert. 3", alpha = 0.2, color= (0,0.6,0.5))
 ax.plot(days, y6, label = "Hori. 3", alpha = 0.2, color= (0.5,0.6,0))
 
 ax.legend("upper left")
@@ -155,7 +157,7 @@ plt.axvspan(25.536006944444445, 46.53662037037037, color = 'yellow', alpha = 0.2
 plt.axvspan(46.53662037037037, 67.1998263888889, color = 'blue', alpha = 0.1)
 plt.axvspan(67.1998263888889, 69.89245370370371, color = 'yellow', alpha = 0.2)
 
-plt.axhline(y=50, color='green', linestyle="dashed")
+plt.axhline(y=36.45, color='green', linestyle="dashed") #number came from lowest MARS startup voltage (270 mV)
 # # label = 'started drying again'
 # plt.axvspan(74.551516, 85, color = 'yellow', alpha = 0.2)
 
@@ -190,6 +192,9 @@ ax.set_position([box.x0, box.y0 + box.height * 0.1,
                  box.width, box.height * 0.9])
 
 # Put a legend below current axis
-ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.125),
-          fancybox=True, ncol=8, prop=my_font)
+#ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.125),
+#          fancybox=True, ncol=8, prop=my_font, frameon=False)
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15),
+          fancybox=True, ncol=4, prop=my_font, frameon=False)
+
 plt.show()
