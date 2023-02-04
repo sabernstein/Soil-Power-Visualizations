@@ -234,13 +234,15 @@ p_ave = butter_lowpass_filter(planar_ave, cutoff, fs, order)
 # # plot line
 fig, ax = plt.subplots()
 ax.plot(days[:115102], v_ave[:115102], label = "Vert. Avg.", alpha = 1, color= (0,0.1,1))
-ax.plot(days[:115102], y1[:115102], label = "Vert. 1", alpha = 0.2, color= (0,0.2,0.5))
-ax.plot(days[:115102], y2[:115102], label='Vert. 2', alpha = 0.2, color= (0,0.4,0.5))
-ax.plot(days[:115102], y3[:115102], label = "Vert. 3", alpha = 0.2, color= (0,0.6,0.5))
-# ax.plot(days[:105102], h1_volt[:105102], label = "Horizontal 1 V", alpha = 1, color= (1, 0, 0))
 ax.plot(days[:115102], p_ave[:115102], label = "Hori. Avg.", alpha = 1, color= (1,0.1,0))
+
+ax.plot(days[:115102], y1[:115102], label = "Vert. 1", alpha = 0.2, color= (0,0.2,0.5))
 ax.plot(days[:115102], y4[:115102], label = "Hori. 1", alpha = 0.2, color= (0.5,0.2,0))
+
+ax.plot(days[:115102], y2[:115102], label='Vert. 2', alpha = 0.2, color= (0,0.4,0.5))
 ax.plot(days[:115102], y5[:115102], label = "Hori. 2", alpha = 0.2, color="red")
+
+ax.plot(days[:115102], y3[:115102], label = "Vert. 3", alpha = 0.2, color= (0,0.6,0.5))
 ax.plot(days[:115102], y6[:115102], label = "Hori. 3", alpha = 0.2, color= (0.5,0.4,0))
 ax.legend("upper left")
 
@@ -258,20 +260,20 @@ print(days[115102])
 #import custom font
 from matplotlib import font_manager
 font_path = './font/linux_libertine/LinLibertine_RB.ttf'  # the location of the font file
-my_font = font_manager.FontProperties(fname=font_path, size=22)  # get the font based on the font_path, set font size
+my_font = font_manager.FontProperties(fname=font_path, size=18)  # get the font based on the font_path, set font size
 
 font_path2 = './font/linux_libertine/LinLibertine_R.ttf'  # the location of the font file
 my_font2 = font_manager.FontProperties(fname=font_path2, size=22)  # get the font based on the font_path, set font size
 #set font type of x and y axis
-plt.ylabel('Power (µW)', fontproperties=my_font)
-plt.xlabel('Timeline (Days)', fontproperties=my_font)
+plt.ylabel('Power (µW)', fontproperties=my_font, size=22)
+plt.xlabel('Timeline (Days)', fontproperties=my_font, size=22)
 #adding text inside the plot
-plt.axhline(y=50, color='green', linestyle="dashed")
-plt.text(1.02, 52, 'MARS', size=20,  color='green', fontproperties=my_font)
-plt.text(22.11, 245.5, 'Flooded', fontsize = 22,  fontproperties=my_font)
-plt.text(51, 245.5, 'Drying', fontsize = 22,  fontproperties=my_font)
-plt.text(63, 245.5, 'Flooded', fontsize = 22,  fontproperties=my_font)
-plt.text(75.5, 245.5, 'Drying', fontsize = 22,  fontproperties=my_font)
+plt.axhline(y=20, color='green', linestyle="dashed")
+plt.text(1.02, 22, 'MARS', size=20,  color='green', fontproperties=my_font)
+plt.text(22.11, 245.5, 'Flooded', fontsize = 20,  fontproperties=my_font)
+plt.text(51, 245.5, 'Drying', fontsize = 20,  fontproperties=my_font)
+plt.text(63, 245.5, 'Flooded', fontsize = 20,  fontproperties=my_font)
+plt.text(75.5, 245.5, 'Drying', fontsize = 20,  fontproperties=my_font)
 #set font type of tickmarks
 for label in ax.get_xticklabels():
     label.set_fontproperties(my_font2)
@@ -279,5 +281,6 @@ for label in ax.get_yticklabels():
     label.set_fontproperties(my_font2)
 
 #set font type of legend
-plt.legend(prop=my_font)
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15),
+          fancybox=True, ncol=4, prop=my_font, frameon=False)
 plt.show()

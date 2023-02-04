@@ -157,7 +157,7 @@ plt.axvspan(25.536006944444445, 46.53662037037037, color = 'yellow', alpha = 0.2
 plt.axvspan(46.53662037037037, 67.1998263888889, color = 'blue', alpha = 0.1)
 plt.axvspan(67.1998263888889, 69.89245370370371, color = 'yellow', alpha = 0.2)
 
-plt.axhline(y=36.45, color='green', linestyle="dashed") #number came from lowest MARS startup voltage (270 mV)
+plt.axhline(y=20, color='green', linestyle="dashed") #number came from lowest MARS startup voltage (0.2V*0.2V)/2000 ohms = 20 uW
 # # label = 'started drying again'
 # plt.axvspan(74.551516, 85, color = 'yellow', alpha = 0.2)
 
@@ -173,7 +173,7 @@ my_font2 = font_manager.FontProperties(fname=font_path2, size=22)  # get the fon
 plt.ylabel('Power (µW)', fontproperties=my_font, size=22)
 plt.xlabel('Timeline (Days)', fontproperties=my_font, size=22)
 
-plt.text(1.02, 52, 'MARS', size=20,  color='green', fontproperties=my_font)
+plt.text(1.02, 22, 'MARS', size=20,  color='green', fontproperties=my_font)
 plt.text(9.17, 226.7, 'Flooded', size=20,  fontproperties=my_font)
 plt.text(33.53, 226.7, 'Drying',  size=20, fontproperties=my_font)
 plt.text(54.46, 226.7, 'Flooded',  size=20, fontproperties=my_font)
@@ -192,8 +192,6 @@ ax.set_position([box.x0, box.y0 + box.height * 0.1,
                  box.width, box.height * 0.9])
 
 # Put a legend below current axis
-#ax.legend(loc='upper center', bbox_to_anchor=(0.5, -0.125),
-#          fancybox=True, ncol=8, prop=my_font, frameon=False)
 ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15),
           fancybox=True, ncol=4, prop=my_font, frameon=False)
 
