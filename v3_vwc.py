@@ -178,7 +178,7 @@ for label in ax.get_yticklabels():
     label.set_fontproperties(my_font2)
 
 #set font type of legend
-ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15),
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.18),
           fancybox=True, ncol=4, prop=my_font, frameon=False)
 # ax.plot(days[93660:], vwc_filter[93660:], alpha = 1, color= (0,0.1,1))
 plt.show()

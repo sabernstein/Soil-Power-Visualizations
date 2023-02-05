@@ -176,7 +176,7 @@ ax2.plot(days[1800:190979], vwc_filtered[1800:190979], alpha = 1, color= "red")
 # ax2.set_xlim(xmax=)
 ax2.set_ylim(ymin=0)
 ax2.set_ylim(ymax=80)
-ax1.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15),
+ax1.legend(loc='upper center', bbox_to_anchor=(0.5, 1.25),
           fancybox=True, ncol=4, prop=my_font, frameon=False)
 
 
@@ -188,7 +188,7 @@ ax1.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15),
 # ax1.legend(prop={'family':my_font, 'size':20})
 #set font type of x and y axis
 # plt.ylabel('Volumetric Water Content', fontproperties=my_font)
-ax2.set_ylabel('Volumetric Water Content (%)', fontproperties=my_font)
+ax2.set_ylabel('Vol. Water Content (%)', fontproperties=my_font)
 ax1.set_ylabel('Power (µW)', fontproperties=my_font)
 
 plt.xlabel('Timeline (Days)', fontproperties=my_font)

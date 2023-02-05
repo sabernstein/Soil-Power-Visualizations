@@ -8,3 +8,7 @@ Key dates for v3 cells:
 1. Drying cycle 1 starts 12/20/23 at noon
 2. Restarting cells (added water again) 1/10/23 at noon
 3. Drying cycle 2 starts 1/30/23 at 3:55 pm
+
+Data gaps for v2 cells:
+1. Day 37.90353009259259 to 44.71061342592593
+2. Day 50.75174768518519 to 52.69890046296296
