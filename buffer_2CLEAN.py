@@ -233,17 +233,17 @@ p_ave = butter_lowpass_filter(planar_ave, cutoff, fs, order)
 
 # # plot line
 fig, ax = plt.subplots()
-ax.plot(days[:115102], v_ave[:115102], label = "Vert. Avg.", alpha = 1, color= (0,0.1,1))
-ax.plot(days[:115102], p_ave[:115102], label = "Hori. Avg.", alpha = 1, color= (1,0.1,0))
+ax.plot(days[:115102], v_ave[:115102], label = "v2 Cell Avg.", alpha = 1, color= (0,0.1,1))
+ax.plot(days[:115102], p_ave[:115102], label = "v0 Cell Avg.", alpha = 1, color= (1,0.1,0))
 
-ax.plot(days[:115102], y1[:115102], label = "Vert. 1", alpha = 0.2, color= (0,0.2,0.5))
-ax.plot(days[:115102], y4[:115102], label = "Hori. 1", alpha = 0.2, color= (0.5,0.2,0))
+ax.plot(days[:115102], y1[:115102], label = "v2 Cell 1", alpha = 0.2, color= (0,0.2,0.5))
+ax.plot(days[:115102], y4[:115102], label = "v0 Cell 1", alpha = 0.2, color= (0.5,0.2,0))
 
-ax.plot(days[:115102], y2[:115102], label='Vert. 2', alpha = 0.2, color= (0,0.4,0.5))
-ax.plot(days[:115102], y5[:115102], label = "Hori. 2", alpha = 0.2, color="red")
+ax.plot(days[:115102], y2[:115102], label='v2 Cell 2', alpha = 0.2, color= (0,0.4,0.5))
+ax.plot(days[:115102], y5[:115102], label = "v0 Cell 2", alpha = 0.2, color="red")
 
-ax.plot(days[:115102], y3[:115102], label = "Vert. 3", alpha = 0.2, color= (0,0.6,0.5))
-ax.plot(days[:115102], y6[:115102], label = "Hori. 3", alpha = 0.2, color= (0.5,0.4,0))
+ax.plot(days[:115102], y3[:115102], label = "v2 Cell 3", alpha = 0.2, color= (0,0.6,0.5))
+ax.plot(days[:115102], y6[:115102], label = "v0 Cell 3", alpha = 0.2, color= (0.5,0.4,0))
 ax.legend("upper left")
 
 # started drying cells'

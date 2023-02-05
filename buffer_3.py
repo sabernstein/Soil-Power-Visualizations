@@ -142,17 +142,17 @@ days = np.insert(days, len(days), 74)
 
 # # plot line
 fig, ax = plt.subplots()
-ax.plot(days, v_ave, label = "Vert. Avg.", alpha = 1, color= (0,0.1,1))
-ax.plot(days, p_ave, label = "Hori. Avg.", alpha = 1, color= (1,0.1,0))
+ax.plot(days, v_ave, label = "v3 Cell Avg.", alpha = 1, color= (0,0.1,1))
+ax.plot(days, p_ave, label = "v0 Cell Avg.", alpha = 1, color= (1,0.1,0))
 
-ax.plot(days, y1, label = "Vert. 1", alpha = 0.2, color= (0,0.2,0.5))
-ax.plot(days, y4, label = "Hori. 1", alpha = 0.2, color= (0.5,0.2,0))
+ax.plot(days, y1, label = "v3 Cell 1", alpha = 0.2, color= (0,0.2,0.5))
+ax.plot(days, y4, label = "v0 Cell 1", alpha = 0.2, color= (0.5,0.2,0))
 
-ax.plot(days, y2, label='Vert. 2', alpha = 0.2, color= (0,0.4,0.5))
-ax.plot(days, y5, label = "Hori. 2", alpha = 0.2, color= (0.5,0.4,0))
+ax.plot(days, y2, label='v3 Cell 2', alpha = 0.2, color= (0,0.4,0.5))
+ax.plot(days, y5, label = "v0 Cell 2", alpha = 0.2, color= (0.5,0.4,0))
 
-ax.plot(days, y3, label = "Vert. 3", alpha = 0.2, color= (0,0.6,0.5))
-ax.plot(days, y6, label = "Hori. 3", alpha = 0.2, color= (0.5,0.6,0))
+ax.plot(days, y3, label = "v3 Cell 3", alpha = 0.2, color= (0,0.6,0.5))
+ax.plot(days, y6, label = "v0 Cell 3", alpha = 0.2, color= (0.5,0.6,0))
 
 ax.legend("upper left")
 

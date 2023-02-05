@@ -129,17 +129,17 @@ y6 = butter_lowpass_filter(p3_power, cutoff, fs, order)
 v_ave = butter_lowpass_filter(vertical_ave, cutoff, fs, order)
 p_ave = butter_lowpass_filter(planar_ave, cutoff, fs, order)
 fig, ax = plt.subplots()
-ax.plot(vwc[93660:], v_ave[93660:], label = "Vert. Avg.", alpha = 1, color= (0,0.1,1))
-ax.plot(vwc[93660:], p_ave[93660:], label = "Hori. Avg.", alpha = 1, color= (1,0.1,0))
+ax.plot(vwc[93660:], v_ave[93660:], label = "v3 Cell Avg.", alpha = 1, color= (0,0.1,1))
+ax.plot(vwc[93660:], p_ave[93660:], label = "v0 Cell Avg.", alpha = 1, color= (1,0.1,0))
 
-ax.plot(vwc[93660:], y1[93660:], label = "Vert. 1", alpha = 0.2, color= (0,0.2,0.5))
-ax.plot(vwc[93660:], y4[93660:], label = "Hori. 1", alpha = 0.2, color= (0.5,0.2,0))
+ax.plot(vwc[93660:], y1[93660:], label = "v3 Cell 1", alpha = 0.2, color= (0,0.2,0.5))
+ax.plot(vwc[93660:], y4[93660:], label = "v0 Cell 1", alpha = 0.2, color= (0.5,0.2,0))
 
-ax.plot(vwc[93660:], y2[93660:], label='Vert. 2', alpha = 0.2, color= (0,0.4,0.5))
-ax.plot(vwc[93660:], y5[93660:], label = "Hori. 2", alpha = 0.2, color= (0.5,0.4,0))
+ax.plot(vwc[93660:], y2[93660:], label='v3 Cell 2', alpha = 0.2, color= (0,0.4,0.5))
+ax.plot(vwc[93660:], y5[93660:], label = "v0 Cell 2", alpha = 0.2, color= (0.5,0.4,0))
 
-ax.plot(vwc[93660:], y3[93660:], label = "Vert. 3", alpha = 0.2, color= (0,0.6,0.5))
-ax.plot(vwc[93660:], y6[93660:], label = "Hori. 3", alpha = 0.2, color= (0.5,0.6,0))
+ax.plot(vwc[93660:], y3[93660:], label = "v3 Cell 3", alpha = 0.2, color= (0,0.6,0.5))
+ax.plot(vwc[93660:], y6[93660:], label = "v0 Cell 3", alpha = 0.2, color= (0.5,0.6,0))
 
 '''
 #Unfiltered data
