@@ -176,7 +176,8 @@ ax2.plot(days[1800:190979], vwc_filtered[1800:190979], alpha = 1, color= "red")
 # ax2.set_xlim(xmax=)
 ax2.set_ylim(ymin=0)
 ax2.set_ylim(ymax=80)
-ax1.legend(loc="upper left", prop=my_font)
+ax1.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15),
+          fancybox=True, ncol=4, prop=my_font, frameon=False)
 
 
 # ax3.legend()

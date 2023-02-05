@@ -103,8 +103,8 @@ def butter_lowpass_filter(data, cutoff, fs, order=5):
 
 # Filter requirements.
 order = 6
-fs = 1/60      # sample rate, Hz
-cutoff = 1/(24*3600)  # desired cutoff frequency of the filter, Hz
+fs = 1/1000      # sample rate, Hz
+cutoff = 1/(80*3600)  # desired cutoff frequency of the filter, Hz
 
 # Get the filter coefficients so we can check its frequency response.
 b, a = butter_lowpass(cutoff, fs, order)
@@ -129,15 +129,30 @@ y6 = butter_lowpass_filter(p3_power, cutoff, fs, order)
 v_ave = butter_lowpass_filter(vertical_ave, cutoff, fs, order)
 p_ave = butter_lowpass_filter(planar_ave, cutoff, fs, order)
 fig, ax = plt.subplots()
-ax.plot(vwc[93660:], v_ave[93660:], label = "Vert. Ave.", alpha = 1, color= (0,0.1,1))
-ax.plot(vwc[93660:], y1[93660:], label = "Vert. 1", alpha = 0.2, color= (0,0.2,0.5))
-ax.plot(vwc[93660:], y2[93660:], label='Vert. 2', alpha = 0.2, color= (0,0.4,0.5))
-ax.plot(vwc[93660:], y3[93660:], label = "Verti. 3", alpha = 0.2, color= (0,0.6,0.5))
+ax.plot(vwc[93660:], v_ave[93660:], label = "Vert. Avg.", alpha = 1, color= (0,0.1,1))
+ax.plot(vwc[93660:], p_ave[93660:], label = "Hori. Avg.", alpha = 1, color= (1,0.1,0))
 
-ax.plot(vwc[93660:], p_ave[93660:], label = "Hori. Ave.", alpha = 1, color= (1,0.1,0))
+ax.plot(vwc[93660:], y1[93660:], label = "Vert. 1", alpha = 0.2, color= (0,0.2,0.5))
 ax.plot(vwc[93660:], y4[93660:], label = "Hori. 1", alpha = 0.2, color= (0.5,0.2,0))
+
+ax.plot(vwc[93660:], y2[93660:], label='Vert. 2', alpha = 0.2, color= (0,0.4,0.5))
 ax.plot(vwc[93660:], y5[93660:], label = "Hori. 2", alpha = 0.2, color= (0.5,0.4,0))
+
+ax.plot(vwc[93660:], y3[93660:], label = "Vert. 3", alpha = 0.2, color= (0,0.6,0.5))
 ax.plot(vwc[93660:], y6[93660:], label = "Hori. 3", alpha = 0.2, color= (0.5,0.6,0))
+
+'''
+#Unfiltered data
+ax.plot(vwc[93660:], vertical_ave[93660:], label = "Vert. Ave.", alpha = 1, color= (0,0.1,1))
+ax.plot(vwc[93660:], v1_power[93660:], label = "Vert. 1", alpha = 0.2, color= (0,0.2,0.5))
+ax.plot(vwc[93660:], v2_power[93660:], label='Vert. 2', alpha = 0.2, color= (0,0.4,0.5))
+ax.plot(vwc[93660:], v3_power[93660:], label = "Verti. 3", alpha = 0.2, color= (0,0.6,0.5))
+
+ax.plot(vwc[93660:], planar_ave[93660:], label = "Hori. Ave.", alpha = 1, color= (1,0.1,0))
+ax.plot(vwc[93660:], p1_power[93660:], label = "Hori. 1", alpha = 0.2, color= (0.5,0.2,0))
+ax.plot(vwc[93660:], p2_power[93660:], label = "Hori. 2", alpha = 0.2, color= (0.5,0.4,0))
+ax.plot(vwc[93660:], p3_power[93660:], label = "Hori. 3", alpha = 0.2, color= (0.5,0.6,0))
+'''
 
 # print(days.index(67.1998263888889))
 #import custom font
@@ -163,6 +178,7 @@ for label in ax.get_yticklabels():
     label.set_fontproperties(my_font2)
 
 #set font type of legend
-plt.legend(loc="upper left", prop=my_font)
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.15),
+          fancybox=True, ncol=4, prop=my_font, frameon=False)
 # ax.plot(days[93660:], vwc_filter[93660:], alpha = 1, color= (0,0.1,1))
 plt.show()

@@ -129,6 +129,17 @@ y6 = butter_lowpass_filter(p3_power, cutoff, fs, order)
 v_ave = butter_lowpass_filter(vertical_ave, cutoff, fs, order)
 p_ave = butter_lowpass_filter(planar_ave, cutoff, fs, order)
 
+#insert one last datapoint for day 74 to extend out flat lines for aesthetics purposes
+y1 = np.insert(y1, len(y1), 0)
+y2 = np.insert(y2, len(y2), 0)
+y3 = np.insert(y3, len(y3), 0)
+y4 = np.insert(y4, len(y4), 0)
+y5 = np.insert(y5, len(y5), 0)
+y6 = np.insert(y6, len(y6), 0)
+v_ave = np.insert(v_ave, len(v_ave), 0)
+p_ave = np.insert(p_ave, len(p_ave), 0)
+days = np.insert(days, len(days), 74)
+
 # # plot line
 fig, ax = plt.subplots()
 ax.plot(days, v_ave, label = "Vert. Avg.", alpha = 1, color= (0,0.1,1))
@@ -155,7 +166,8 @@ ax.legend("upper left")
 plt.axvspan(0, 25.536006944444445, color = 'blue', alpha = 0.1)
 plt.axvspan(25.536006944444445, 46.53662037037037, color = 'yellow', alpha = 0.2)
 plt.axvspan(46.53662037037037, 67.1998263888889, color = 'blue', alpha = 0.1)
-plt.axvspan(67.1998263888889, 69.89245370370371, color = 'yellow', alpha = 0.2)
+plt.axvspan(67.1998263888889, 74, color = 'yellow', alpha = 0.2)
+#plt.axvspan(67.1998263888889, 69.89245370370371, color = 'yellow', alpha = 0.2)
 
 plt.axhline(y=20, color='green', linestyle="dashed") #number came from lowest MARS startup voltage (0.2V*0.2V)/2000 ohms = 20 uW
 # # label = 'started drying again'
@@ -177,6 +189,7 @@ plt.text(1.02, 22, 'MARS', size=20,  color='green', fontproperties=my_font)
 plt.text(9.17, 226.7, 'Flooded', size=20,  fontproperties=my_font)
 plt.text(33.53, 226.7, 'Drying',  size=20, fontproperties=my_font)
 plt.text(54.46, 226.7, 'Flooded',  size=20, fontproperties=my_font)
+plt.text(67.5, 226.7, 'Drying',  size=20, fontproperties=my_font)
 
 #set font type of tickmarks
 for label in ax.get_xticklabels():
