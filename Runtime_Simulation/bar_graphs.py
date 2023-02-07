@@ -1,28 +1,24 @@
 import matplotlib.pyplot as plt
 
-def plot_bar_graph(list1, list2, list3):
-    fig, ax = plt.subplots()
+def bar_subplots(data1, data2, data3):
+    fig, axs = plt.subplots(3, 1, figsize=(12, 4), sharey=True, sharex=True)
+    x = range(len(data1))
+    axs[0].bar(x, data1, color="red", label="Ambiq")
+    axs[1].bar(x, data2, color="blue", label="MSP430")
+    axs[2].bar(x, data3, color="green", label="MARS")
+    
+    axs.flat[0].set(ylabel="Ambiq")
+    axs.flat[1].set(ylabel="MSP430")
+    axs.flat[2].set(ylabel="MARS")
 
-    index = [0, 1, 2, 3, 4]
-    bar_width = 0.25
-
-    bar1 = ax.bar(index, list1, bar_width, label='List 1')
-    bar2 = ax.bar([i + bar_width for i in index], list2, bar_width, label='List 2')
-    bar3 = ax.bar([i + 2*bar_width for i in index], list3, bar_width, label='List 3')
-
-    ax.set_xlabel('Index')
-    ax.set_ylabel('Value')
-    ax.set_title('Bar Graph of 3 Lists')
-    ax.set_xticks([i + bar_width for i in index])
-    ax.set_xticklabels(index)
-    ax.legend()
-
-    plt.tight_layout()
+    plt.xlabel("Timeline (Days)")
     plt.show()
+'''
+list1 = [139, 1414, 1413, 1414, 1412, 1414, 1414, 1413, 1414, 1413, 1414, 1414, 1413, 1414, 372, 1406, 1414, 1414, 1413, 1414, 1413, 1414, 1414, 1413, 1414, 1413, 1362, 1412, 1411, 1412, 1412, 1412, 1411, 1412, 1412, 1412, 1411, 1412, 1412, 1412, 1411, 1412, 1029, 0, 0, 0, 0, 0, 0, 269, 1412, 1411, 1412, 1412, 1400, 1412, 1411, 1412, 1412, 1411, 1412, 1411, 1412, 1411, 1412, 1412, 1313, 1412, 1412, 1411, 740]
+list2 = [0, 1109, 1413, 1414, 1412, 1414, 1414, 1413, 1414, 1413, 1414, 1414, 1413, 1414, 372, 1406, 1414, 1414,1413, 1414, 1413, 1414, 1414, 1413, 1414, 1413, 1362, 1412, 1411, 1412, 1412, 1412, 1411, 1412, 1412, 1412, 1411, 1412, 1412, 1412, 1411, 1412, 988, 0, 0, 0, 0, 0, 0, 198, 1412, 1411, 1412, 1412, 1400, 1412, 1411,1412, 1412, 1411, 1412, 1411, 1412, 1411, 1412, 1412, 1313, 1412, 1412, 1411, 611]
+list3 = [0, 474, 1413, 1414, 1412, 1414, 1414, 1413, 1414, 1413, 1414, 1414, 1413, 1414, 372, 1406, 1414, 1414,1413, 1414, 1413, 1414, 1414, 1413, 1414, 1413, 1362, 1412, 1411, 1412, 1412, 1412, 1411, 1412, 1412, 1412,1411, 1412, 1412, 1412, 1411, 1412, 908, 0, 0, 0, 0, 0, 0, 84, 1412, 1411, 1412, 1412, 1400, 1412, 1411, 1412, 1412, 1411, 1412, 1411, 1412, 1411, 1412, 1412, 1313, 1412, 1412, 1411, 364]
 
+print(len(list1), len(list2), len(list3))
 
-list1 = [1, 2, 3, 4, 5]
-list2 = [2, 4, 6, 8, 10]
-list3 = [3, 6, 9, 12, 15]
-
-plot_bar_graph(list1, list2, list3)
+bar_subplots(list1, list2, list3)
+'''

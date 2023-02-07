@@ -1,7 +1,7 @@
 import csv
 from collections import defaultdict
 import numpy as np
-from scipy.signal import butter, lfilter, freqz
+from scipy.signal import butter, lfilter
 import matplotlib.pyplot as plt
 from datetime import datetime
 
@@ -20,12 +20,6 @@ x2 = columns['unix_time']
 unix_time = []
 for t in x2:
     unix_time.append(int(float(t)))
-
-# for t in unix_time:
-#     if datetime.fromtimestamp(t).day == 30 and datetime.fromtimestamp(t).month == 1:
-#         print(datetime.fromtimestamp(t))
-#         print(unix_time.index(t))
-
 
 d0 = datetime.fromtimestamp(unix_time[0])
 days = []
