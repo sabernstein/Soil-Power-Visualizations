@@ -47,6 +47,8 @@ def update_capVoltage(v0, V_applied, R, C, dt):
     #assume constant current in this timestep
     if V_applied > v0: #only charge if applied voltage is greater than cap voltage
         V_new = v0 + V_applied * (1-math.exp(-dt/(R*C)))
+        if V_new > V_applied: #cap voltage can't be bigger than applied
+            V_new = V_applied
         #print("Charging V_new: " + str(V_new) + ", V_applied: " + str(V_applied))
     else:
         V_new = v0 #assume we won't discharge if voltage is lower
@@ -74,10 +76,14 @@ def update_capEnergy(e0, V_applied, R, C, dt):
     return e_final, v_cap #subtract leaked energy
 
 def Ambiq_energy():
-    return 100000e-6 #test value
+    #page 188 of Apollo4 SoC Datasheet
+    #VDD = 1.9
+    #15.8 uA/MHz
+    #HFRC=96 MHz
+    return 1.9 * 15.8*96 * 20e-6 #test value
 
 def MSP430_energy():
-    return 10e-6 #test value
+    return 1.8 * 90e-6 * 20e-6 #test value for time
 
 def MARS_energy():
-    return 30e-6#1.8 * 100e-6 * 20e-6 #test value
+    return 0.2 * 2.15e-6 * 20e-6 #test value for time
