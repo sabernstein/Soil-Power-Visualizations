@@ -98,11 +98,12 @@ for jj in range(1,len(days)): #last data point was at 71.85893518518519 day
         on_MSP430_0 = 0
         on_MARS_0 = 0
 
+#Debugging print and plots
+print(on_Ambiq_list0)
 print(on_MSP430_list0)
 print(on_MARS_list0)
 
 from matplotlib import pyplot as plt
-#plt.plot(days, v0_avg_v, label="voltage")
 fig, axs = plt.subplots(3, 1, figsize=(12, 4), sharex=True)
 axs[0].plot(days[1:], cap_energy_ambiq, label="cap_ambiq_e")
 axs[0].plot(days[1:], cap_energy_msp430, label="cap_msp430_e")
@@ -127,6 +128,7 @@ axs[0].legend()
 axs[1].legend()
 plt.show()
 
+#generate bar graphs
 bar_graphs.bar_subplots(on_Ambiq_list0, on_MSP430_list0, on_MARS_list0)
 
 
