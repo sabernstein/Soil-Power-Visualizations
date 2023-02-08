@@ -4,6 +4,8 @@ import numpy as np
 from scipy.signal import butter, lfilter
 import matplotlib.pyplot as plt
 from datetime import datetime
+#import custom font
+from matplotlib import font_manager
 
 columns = defaultdict(list) # each value in each column is appended to a list
 
@@ -167,8 +169,7 @@ plt.axhline(y=20, color='green', linestyle="dashed") #number came from lowest MA
 # # label = 'started drying again'
 # plt.axvspan(74.551516, 85, color = 'yellow', alpha = 0.2)
 
-#import custom font
-from matplotlib import font_manager
+
 font_path = './font/linux_libertine/LinLibertine_RB.ttf'  # the location of the font file
 my_font = font_manager.FontProperties(fname=font_path, size=16)  # get the font based on the font_path, set font size
 
