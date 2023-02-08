@@ -1,7 +1,6 @@
 import models
 import bar_graphs
 import SMFC
-import math
 
 #STEP 1: Import voltage values from v3_Data.csv and get filtered average of v3 and v0 cells
 days, v0_avg_v, v3_avg_v  = SMFC.getMFC_data('Final_Data/v3_Data.csv')
