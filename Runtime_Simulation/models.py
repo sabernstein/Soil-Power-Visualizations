@@ -46,9 +46,11 @@ def update_capVoltage(v0, V_applied, R, C, dt):
     import math
     #assume constant current in this timestep
     if V_applied > v0: #only charge if applied voltage is greater than cap voltage
-        V_new = V_applied * (1-math.exp(-dt/(R*C)))
+        V_new = v0 + V_applied * (1-math.exp(-dt/(R*C)))
+        #print("Charging V_new: " + str(V_new) + ", V_applied: " + str(V_applied))
     else:
         V_new = v0 #assume we won't discharge if voltage is lower
+        #print("Not charging V_new: " + str(V_new) + ", V_applied: " + str(V_applied))
     return V_new #unit is volts
 
 def update_capEnergy(e0, V_applied, R, C, dt):
@@ -68,11 +70,11 @@ def update_capEnergy(e0, V_applied, R, C, dt):
     e_final = e_cap-e_leak
     if e_final < 0: #Not charging if leakage is greater than energy
         e_final = 0
-
-    return e_final #subtract leaked energy
+    #print("e_final: " + str(e_final))
+    return e_final, v_cap #subtract leaked energy
 
 def Ambiq_energy():
-    return 10000e-6 #test value
+    return 100000e-6 #test value
 
 def MSP430_energy():
     return 10e-6 #test value
