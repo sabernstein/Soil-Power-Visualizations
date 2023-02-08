@@ -1,3 +1,5 @@
+import math
+
 def internal_R_v3(R=2000): #return internal resistance of v3 cells in ohms
     #https://www.jstage.jst.go.jp/article/jwet/20/1/20_21-087/_pdf
     v0_oc = 48.5e-3 #48.5 mV
@@ -43,7 +45,6 @@ def update_capVoltage(v0, V_applied, R, C, dt):
     # R: internal resistance of SMFC
     # C: capacitance of capacitor
     # dt: time step since last data point
-    import math
     #assume constant current in this timestep
     if V_applied > v0: #only charge if applied voltage is greater than cap voltage
         V_new = v0 + V_applied * (1-math.exp(-dt/(R*C)))
@@ -56,7 +57,6 @@ def update_capVoltage(v0, V_applied, R, C, dt):
     return V_new #unit is volts
 
 def update_capEnergy(e0, V_applied, R, C, dt):
-    import math
     # e0: initial energy stored
     # V_applied: voltage from SMFC
     # R: internal resistance of SMFC
@@ -132,27 +132,27 @@ def simulate(t_list, v_list, C_h):
         t = 24*60*60*(t_list[jj] - t_list[jj-1]) #dt is time since last measurement in seconds
 
         #update amount of energy in capacitor given v0 output
-        E_Ambiq, v_ambiq = models.update_capEnergy(e_ambiq_init, V_applied=v_list[jj], R=models.internal_R_v0(), C=C_h, dt=t)
-        E_MSP430, v_msp430 = models.update_capEnergy(e_msp430_init, V_applied=v_list[jj], R=models.internal_R_v0(), C=C_h, dt=t)
-        E_MARS, v_mars = models.update_capEnergy(e_mars_init, V_applied=v_list[jj], R=models.internal_R_v0(), C=C_h, dt=t)
+        E_Ambiq, v_ambiq = update_capEnergy(e_ambiq_init, V_applied=v_list[jj], R=internal_R_v0(), C=C_h, dt=t)
+        E_MSP430, v_msp430 = update_capEnergy(e_msp430_init, V_applied=v_list[jj], R=internal_R_v0(), C=C_h, dt=t)
+        E_MARS, v_mars = update_capEnergy(e_mars_init, V_applied=v_list[jj], R=internal_R_v0(), C=C_h, dt=t)
 
         
         #Check if we have enough power to turn things on
-        if E_Ambiq > models.Ambiq_energy():
-            on_Ambiq = on_Ambiq + round(E_Ambiq/models.Ambiq_energy())
+        if E_Ambiq > Ambiq_energy():
+            on_Ambiq = on_Ambiq + round(E_Ambiq/Ambiq_energy())
             E_Ambiq = 0 #completely discharge, prob bad assumption will change based on matrix board stat
             v_ambiq = 0
             #
             
-        if E_MSP430 > models.MSP430_energy():
-            on_MSP430 = on_MSP430 + round(E_MSP430/models.MSP430_energy())
+        if E_MSP430 > MSP430_energy():
+            on_MSP430 = on_MSP430 + round(E_MSP430/MSP430_energy())
             E_MSP430 = 0 #completely discharge, prob bad assumption will change based on matrix board stat
             v_msp430 = 0
             #
             
-        if E_MARS > models.MARS_energy():
+        if E_MARS > MARS_energy():
             #print(E0_MARS, models.MARS_energy(), E0_MARS/models.MARS_energy())
-            on_MARS = on_MARS + round(E_MARS/models.MARS_energy())
+            on_MARS = on_MARS + round(E_MARS/MARS_energy())
             
             E_MARS = 0 #completely discharge, prob bad assumption will change based on matrix board stat
             v_mars = 0
@@ -171,7 +171,7 @@ def simulate(t_list, v_list, C_h):
         e_msp430_init = E_MSP430
         e_mars_init = E_MARS
         
-        if math.trunc(days[jj-1]) != math.trunc(days[jj]): #if a day ended
+        if math.trunc(t_list[jj-1]) != math.trunc(t_list[jj]): #if a day ended
             #record the number of sensor reading that day to their respective lists
             on_Ambiq_list.append(on_Ambiq)
             on_MSP430_list.append(on_MSP430)
@@ -199,7 +199,7 @@ def simulate(t_list, v_list, C_h):
     axs[1].plot(t_list[1:], cap_v_mars, label="V of MARS Capacitor")
     axs.flat[1].set(ylabel="Voltage (V)")
 
-    axs[2].plot(days[1:], v_list[1:], label="SMFC Voltage")
+    axs[2].plot(t_list[1:], v_list[1:], label="SMFC Voltage")
     axs.flat[2].set(ylabel="SMFC Voltage (V)")
 
     # specifying horizontal line type
