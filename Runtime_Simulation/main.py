@@ -13,8 +13,8 @@ for ii in range(len(days)): #turn everything into unit of volts
 '''v0_avg_v = []
 v3_avg_v = []
 for item in days:
-    v0_avg_v.append(0.09)
-    v3_avg_v.append(0.09)'''
+    v0_avg_v.append(0.3)
+    v3_avg_v.append(0.3)'''
 
 #STEP 3:
 # For each day:
