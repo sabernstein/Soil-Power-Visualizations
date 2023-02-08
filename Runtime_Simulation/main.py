@@ -45,9 +45,9 @@ cap_energy_mars = []
 cap_energy_msp430 = []
 cap_energy_ambiq = []
 
-cap_v = []
-cap_v1 = []
-
+cap_v_mars = []
+cap_v_msp430 = []
+cap_v_ambiq = []
 
 #for each voltage data point
 for jj in range(1,len(days)): #last data point was at 71.85893518518519 day
@@ -78,6 +78,9 @@ for jj in range(1,len(days)): #last data point was at 71.85893518518519 day
     cap_energy_mars.append(E0_MARS)
     cap_energy_msp430.append(E0_MSP430)
     cap_energy_ambiq.append(E0_Ambiq)
+    cap_v_mars.append(v0_mars)
+    cap_v_msp430.append(v0_msp430)
+    cap_v_ambiq.append(v0_ambiq)
 
     #update start condition for next loop
     e0_ambiq_init = E0_Ambiq
@@ -100,19 +103,28 @@ print(on_MARS_list0)
 
 from matplotlib import pyplot as plt
 #plt.plot(days, v0_avg_v, label="voltage")
+fig, axs = plt.subplots(3, 1, figsize=(12, 4), sharex=True)
+axs[0].plot(days[1:], cap_energy_ambiq, label="cap_ambiq_e")
+axs[0].plot(days[1:], cap_energy_msp430, label="cap_msp430_e")
+axs[0].plot(days[1:], cap_energy_mars, label="cap_mars_e")
+axs.flat[0].set(ylabel="Energy (J)")
 
-plt.plot(days[1:], cap_energy_ambiq, label="cap_ambiq_e")
-plt.plot(days[1:], cap_energy_msp430, label="cap_msp430_e")
-plt.plot(days[1:], cap_energy_mars, label="cap_mars_e")
+axs[1].plot(days[1:], cap_v_ambiq, label="cap_ambiq_v")
+axs[1].plot(days[1:], cap_v_msp430, label="cap_msp430_v")
+axs[1].plot(days[1:], cap_v_mars, label="cap_mars_v")
+axs.flat[1].set(ylabel="Voltage (V)")
+
+axs[2].plot(days[1:], v0_avg_v[1:], label="SMFC Voltage")
+axs.flat[2].set(ylabel="SMFC Voltage (V)")
 
 
 # specifying horizontal line type
 #plt.axhline(y = models.Ambiq_energy(), color = 'r', linestyle = '-')
 #plt.axhline(y = models.MARS_energy(), color = 'r', linestyle = '-.')
 
-plt.ylabel("Energy in Capacitor (J)")
 plt.xlabel("Timeline (Days)")
-plt.legend()
+axs[0].legend()
+axs[1].legend()
 plt.show()
 
 bar_graphs.bar_subplots(on_Ambiq_list0, on_MSP430_list0, on_MARS_list0)
