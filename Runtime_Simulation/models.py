@@ -80,7 +80,7 @@ def Ambiq_energy():
     #VDD = 1.9
     #15.8 uA/MHz
     #HFRC=96 MHz
-    return 1.9 * 15.8*96 * 20e-6 #test value
+    return 1.9 * 15.8e-6*96 * 20e-6 #test value
 
 def MSP430_energy():
     return 1.8 * 90e-6 * 20e-6 #test value for time

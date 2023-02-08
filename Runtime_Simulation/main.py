@@ -27,218 +27,122 @@ for item in days:
 #STEP 4: Visualize the daily # of readings with 3 bar graphs, y axis is # of readings and x axis is days.
 #   - Given 3 lists of integer values, plot them on bar graphs
 
-on_Ambiq_list0 = []
-on_MARS_list0 = []
-on_MSP430_list0 = []
+def simulate(t_list, v_list, C_h):
+    # t_list: list of decimal time stamps in unit of days (e.g. 71.85893518518519 day), same length as v_list
+    # v_list: list of voltage values from SFMC
+    # C_h: capacitance of the capacitor being filled up by harvester
+    on_Ambiq_list = []
+    on_MARS_list = []
+    on_MSP430_list = []
 
-#assume capacitor is completely discharged at start
-e0_ambiq_init = 0 
-e0_msp430_init = 0
-e0_mars_init = 0
+    #assume capacitor is completely discharged at start
+    e_ambiq_init = 0 
+    e_msp430_init = 0
+    e_mars_init = 0
 
-#Initialize daily sensor reading count
-on_Ambiq_0 = 0
-on_MSP430_0 = 0
-on_MARS_0 = 0
+    #Initialize daily sensor reading count
+    on_Ambiq = 0
+    on_MSP430 = 0
+    on_MARS = 0
 
-cap_energy_mars = []
-cap_energy_msp430 = []
-cap_energy_ambiq = []
+    cap_energy_mars = []
+    cap_energy_msp430 = []
+    cap_energy_ambiq = []
 
-cap_v_mars = []
-cap_v_msp430 = []
-cap_v_ambiq = []
+    cap_v_mars = []
+    cap_v_msp430 = []
+    cap_v_ambiq = []
 
-#for each voltage data point
-for jj in range(1,len(days)): #last data point was at 71.85893518518519 day
+    #for each voltage data point
+    for jj in range(1,len(t_list)): #last data point was at 71.85893518518519 day
 
-    t = 24*60*60*(days[jj] - days[jj-1]) #dt is time since last measurement in seconds
+        t = 24*60*60*(t_list[jj] - t_list[jj-1]) #dt is time since last measurement in seconds
 
-    #update amount of energy in capacitor given v0 output
-    E0_Ambiq, v0_ambiq = models.update_capEnergy(e0_ambiq_init, V_applied=v0_avg_v[jj], R=models.internal_R_v0(), C=10e-6, dt=t)
-    E0_MSP430, v0_msp430 = models.update_capEnergy(e0_msp430_init, V_applied=v0_avg_v[jj], R=models.internal_R_v0(), C=10e-6, dt=t)
-    E0_MARS, v0_mars = models.update_capEnergy(e0_mars_init, V_applied=v0_avg_v[jj], R=models.internal_R_v0(), C=10e-6, dt=t)
+        #update amount of energy in capacitor given v0 output
+        E_Ambiq, v_ambiq = models.update_capEnergy(e_ambiq_init, V_applied=v_list[jj], R=models.internal_R_v0(), C=C_h, dt=t)
+        E_MSP430, v_msp430 = models.update_capEnergy(e_msp430_init, V_applied=v_list[jj], R=models.internal_R_v0(), C=C_h, dt=t)
+        E_MARS, v_mars = models.update_capEnergy(e_mars_init, V_applied=v_list[jj], R=models.internal_R_v0(), C=C_h, dt=t)
 
+        
+        #Check if we have enough power to turn things on
+        if E_Ambiq > models.Ambiq_energy():
+            on_Ambiq = on_Ambiq + round(E_Ambiq/models.Ambiq_energy())
+            E_Ambiq = 0 #completely discharge, prob bad assumption will change based on matrix board stat
+            v_ambiq = 0
+            #
+            
+        if E_MSP430 > models.MSP430_energy():
+            on_MSP430 = on_MSP430 + round(E_MSP430/models.MSP430_energy())
+            E_MSP430 = 0 #completely discharge, prob bad assumption will change based on matrix board stat
+            v_msp430 = 0
+            #
+            
+        if E_MARS > models.MARS_energy():
+            #print(E0_MARS, models.MARS_energy(), E0_MARS/models.MARS_energy())
+            on_MARS = on_MARS + round(E_MARS/models.MARS_energy())
+            
+            E_MARS = 0 #completely discharge, prob bad assumption will change based on matrix board stat
+            v_mars = 0
+            
+            #print("Discharging!! Now energy left: " + str(E0_MARS))
+
+        cap_energy_mars.append(E_MARS)
+        cap_energy_msp430.append(E_MSP430)
+        cap_energy_ambiq.append(E_Ambiq)
+        cap_v_mars.append(v_mars)
+        cap_v_msp430.append(v_msp430)
+        cap_v_ambiq.append(v_ambiq)
+
+        #update start condition for next loop
+        e_ambiq_init = E_Ambiq
+        e_msp430_init = E_MSP430
+        e_mars_init = E_MARS
+        
+        if math.trunc(days[jj-1]) != math.trunc(days[jj]): #if a day ended
+            #record the number of sensor reading that day to their respective lists
+            on_Ambiq_list.append(on_Ambiq)
+            on_MSP430_list.append(on_MSP430)
+            on_MARS_list.append(on_MARS)
+
+            #Reset daily sensor reading count
+            on_Ambiq = 0
+            on_MSP430 = 0
+            on_MARS = 0
+
+    #Debugging print and plots
+    print("# of readings by Ambiq: ", on_Ambiq_list)
+    print("# of readings by MSP430: ", on_MSP430_list)
+    print("# of readings by MARS: ", on_MARS_list)
+
+    from matplotlib import pyplot as plt
+    fig, axs = plt.subplots(3, 1, figsize=(12, 4), sharex=True)
+    axs[0].plot(t_list[1:], cap_energy_ambiq, label="E in Ambiq Capacitor")
+    axs[0].plot(t_list[1:], cap_energy_msp430, label="E in MSP430 Capacitor")
+    axs[0].plot(t_list[1:], cap_energy_mars, label="E in MARS Capacitor")
+    axs.flat[0].set(ylabel="Energy (J)")
+
+    axs[1].plot(t_list[1:], cap_v_ambiq, label="V of Ambiq Capacitor")
+    axs[1].plot(t_list[1:], cap_v_msp430, label="V of MSP430 Capacitor")
+    axs[1].plot(t_list[1:], cap_v_mars, label="V of MARS Capacitor")
+    axs.flat[1].set(ylabel="Voltage (V)")
+
+    axs[2].plot(days[1:], v_list[1:], label="SMFC Voltage")
+    axs.flat[2].set(ylabel="SMFC Voltage (V)")
+
+    # specifying horizontal line type
+    #plt.axhline(y = models.Ambiq_energy(), color = 'r', linestyle = '-')
+    #plt.axhline(y = models.MARS_energy(), color = 'r', linestyle = '-.')
+
+    plt.xlabel("Timeline (Days)")
+    axs[0].legend()
+    axs[1].legend()
+
+    return on_Ambiq_list, on_MSP430_list, on_MARS_list
     
-    #Check if we have enough power to turn things on
-    if E0_Ambiq > models.Ambiq_energy():
-        E0_Ambiq = 0 #completely discharge, prob bad assumption will change based on matrix board stat
-        v0_ambiq = 0
-        on_Ambiq_0 = on_Ambiq_0 + 1
-    if E0_MSP430 > models.MSP430_energy():
-        E0_MSP430 = 0 #completely discharge, prob bad assumption will change based on matrix board stat
-        v0_msp430 = 0
-        on_MSP430_0 = on_MSP430_0 + 1
-    if E0_MARS > models.MARS_energy():
-        E0_MARS = 0 #completely discharge, prob bad assumption will change based on matrix board stat
-        v0_mars = 0
-        on_MARS_0 = on_MARS_0 + 1
-        #print("Discharging!! Now energy left: " + str(E0_MARS))
 
-    cap_energy_mars.append(E0_MARS)
-    cap_energy_msp430.append(E0_MSP430)
-    cap_energy_ambiq.append(E0_Ambiq)
-    cap_v_mars.append(v0_mars)
-    cap_v_msp430.append(v0_msp430)
-    cap_v_ambiq.append(v0_ambiq)
-
-    #update start condition for next loop
-    e0_ambiq_init = E0_Ambiq
-    e0_msp430_init = E0_MSP430
-    e0_mars_init = E0_MARS
-    
-    if math.trunc(days[jj-1]) != math.trunc(days[jj]): #if a day ended
-        #record the number of sensor reading that day to their respective lists
-        on_Ambiq_list0.append(on_Ambiq_0)
-        on_MSP430_list0.append(on_MSP430_0)
-        on_MARS_list0.append(on_MARS_0)
-
-        #Reset daily sensor reading count
-        on_Ambiq_0 = 0
-        on_MSP430_0 = 0
-        on_MARS_0 = 0
-
-#Debugging print and plots
-print(on_Ambiq_list0)
-print(on_MSP430_list0)
-print(on_MARS_list0)
-
-from matplotlib import pyplot as plt
-fig, axs = plt.subplots(3, 1, figsize=(12, 4), sharex=True)
-axs[0].plot(days[1:], cap_energy_ambiq, label="cap_ambiq_e")
-axs[0].plot(days[1:], cap_energy_msp430, label="cap_msp430_e")
-axs[0].plot(days[1:], cap_energy_mars, label="cap_mars_e")
-axs.flat[0].set(ylabel="Energy (J)")
-
-axs[1].plot(days[1:], cap_v_ambiq, label="cap_ambiq_v")
-axs[1].plot(days[1:], cap_v_msp430, label="cap_msp430_v")
-axs[1].plot(days[1:], cap_v_mars, label="cap_mars_v")
-axs.flat[1].set(ylabel="Voltage (V)")
-
-axs[2].plot(days[1:], v0_avg_v[1:], label="SMFC Voltage")
-axs.flat[2].set(ylabel="SMFC Voltage (V)")
-
-
-# specifying horizontal line type
-#plt.axhline(y = models.Ambiq_energy(), color = 'r', linestyle = '-')
-#plt.axhline(y = models.MARS_energy(), color = 'r', linestyle = '-.')
-
-plt.xlabel("Timeline (Days)")
-axs[0].legend()
-axs[1].legend()
-plt.show()
+#Call simulate function
+Ambiq0, MSP430_0, MARS0 = simulate(days, v0_avg_v, 1e-6)
+Ambiq3, MSP430_3, MARS3 = simulate(days, v3_avg_v, 1e-6)
 
 #generate bar graphs
-bar_graphs.bar_subplots(on_Ambiq_list0, on_MSP430_list0, on_MARS_list0)
-
-
-#COMMENTED OUT BELOW CODE, UNCOMMENT WHEN MODEL IS FIXED
-'''
-on_Ambiq_list0 = []
-on_MSP430_list0 = []
-on_MARS_list0 = []
-
-on_Ambiq_list3 = []
-on_MSP430_list3 = []
-on_MARS_list3 = []
-
-#assume capacitor is completely discharged at start
-e0_ambiq_init = 0 
-e0_msp430_init = 0
-e0_mars_init = 0
-
-e3_ambiq_init = 0 
-e3_msp430_init = 0
-e3_mars_init = 0
-
-#Initialize daily sensor reading count
-on_Ambiq_0 = 0
-on_MSP430_0 = 0
-on_MARS_0 = 0
-on_Ambiq_3 = 0
-on_MSP430_3 = 0
-on_MARS_3 = 0
-
-cap_energy = []
-cap_energy1 = []
-
-cap_v = []
-cap_v1 = []
-
-
-#for each voltage data point
-for jj in range(1,len(days)): #last data point was at 71.85893518518519 day
-
-    t = 24*60*60*(days[jj] - days[jj-1]) #dt is time since last measurement in seconds
-    #update amount of energy in capacitor given v0 and v3 cell output
-    
-    E0_Ambiq, v0_ambiq = models.update_capEnergy(e0_ambiq_init, V_applied=v0_avg_v[jj], R=models.internal_R_v0(), C=10e-4, dt=t)
-    E0_MSP430 = 0#models.update_capEnergy(e0_msp430_init, V_applied=v0_avg_v[jj], R=models.internal_R_v0(), C=10e-6, dt=t)
-    E0_MARS, v0_mars = models.update_capEnergy(e0_mars_init, V_applied=v0_avg_v[jj], R=models.internal_R_v0(), C=10e-4, dt=t)
-    
-    #print(E0_MARS, models.MARS_energy(), E0_MARS > models.MARS_energy())
-    E3_Ambiq = 0#models.update_capEnergy(e3_ambiq_init, V_applied=v3_avg_v[jj], R=models.internal_R_v3(), C=10e-6, dt=t)
-    E3_MSP430 = 0#models.update_capEnergy(e3_msp430_init, V_applied=v3_avg_v[jj], R=models.internal_R_v3(), C=10e-6, dt=t)
-    E3_MARS = 0#models.update_capEnergy(e3_mars_init, V_applied=v3_avg_v[jj], R=models.internal_R_v3(), C=10e-6, dt=t)
-
-    cap_v.append(v0_mars)
-    cap_v1.append(v0_ambiq)
-    cap_energy.append(E0_MARS)
-    cap_energy1.append(E0_Ambiq)
-    #Check if we have enough power to turn things on
-    if E0_Ambiq > models.Ambiq_energy():
-        E0_Ambiq = 0 #completely discharge, prob bad assumption will change based on matrix board stat
-        v0_ambiq = 0
-        on_Ambiq_0 = on_Ambiq_0 + 1
-    if E0_MSP430 > models.MSP430_energy():
-        E0_MSP430 = 0 #completely discharge, prob bad assumption will change based on matrix board stat
-        on_MSP430_0 = on_MSP430_0 + 1
-    if E0_MARS > models.MARS_energy():
-        E0_MARS = 0 #completely discharge, prob bad assumption will change based on matrix board stat
-        v0_mars = 0
-        on_MARS_0 = on_MARS_0 + 1
-        #print("Discharging!! Now energy left: " + str(E0_MARS))
-    
-    if E3_Ambiq > models.Ambiq_energy():
-        E3_Ambiq = 0 #completely discharge, prob bad assumption will change based on matrix board stat
-        on_Ambiq_3 = on_Ambiq_3 + 1
-    if E3_MSP430 > models.MSP430_energy():
-        E3_MSP430 = 0 #completely discharge, prob bad assumption will change based on matrix board stat
-        on_MSP430_3 = on_MSP430_3 + 1
-    if E3_MARS > models.MARS_energy():
-        E3_MARS = 0 #completely discharge, prob bad assumption will change based on matrix board stat
-        on_MARS_3 = on_MARS_3 + 1
-
-    #update start condition for next loop
-    e0_ambiq_init = E0_Ambiq
-    e0_msp430_init = E0_MSP430
-    e0_mars_init = E0_MARS
-
-    e3_ambiq_init = E3_Ambiq
-    e3_msp430_init = E3_MSP430
-    e3_mars_init = E3_MARS
-
-    
-    
-    
-    if math.trunc(days[jj-1]) != math.trunc(days[jj]): #if a day ended
-        #record the number of sensor reading that day to their respective lists
-        on_Ambiq_list0.append(on_Ambiq_0)
-        on_MSP430_list0.append(on_MSP430_0)
-        on_MARS_list0.append(on_MARS_0)
-        on_Ambiq_list3.append(on_Ambiq_3)
-        on_MSP430_list3.append(on_MSP430_3)
-        on_MARS_list3.append(on_MARS_3)
-
-        #Reset daily sensor reading count
-        on_Ambiq_0 = 0
-        on_MSP430_0 = 0
-        on_MARS_0 = 0
-        on_Ambiq_3 = 0
-        on_MSP430_3 = 0
-        on_MARS_3 = 0
-
-print(on_Ambiq_list0)
-print(on_MSP430_list0)
-print(on_MARS_list0)
-'''
+bar_graphs.bar_subplots(Ambiq0, MSP430_0, MARS0, Ambiq3, MSP430_3, MARS3)
