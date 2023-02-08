@@ -34,7 +34,7 @@ def internal_R_v0(R=2000): #return internal resistance of v0 cells in ohms
 def SMFC_current(v, R):
     return v/R
 
-def cap_leakage(insul_R=1000, rated_V=4):
+def cap_leakage(insul_R=1000e6, rated_V=4):
     #https://media.digikey.com/pdf/Data%20Sheets/Samsung%20PDFs/CL05X106MR5NUNC_Spec.pdf
     return rated_V/insul_R
 
@@ -68,7 +68,7 @@ def update_capEnergy(e0, V_applied, R, C, dt):
         v0 = 0
     v_cap = update_capVoltage(v0, V_applied, R, C, dt)
     e_cap = 0.5*C*v_cap**2
-    e_leak = 0#v_cap*cap_leakage()*dt
+    e_leak = v_cap*cap_leakage(1000e6, v_cap)*dt
     e_final = e_cap-e_leak
     if e_final < 0: #Not charging if leakage is greater than energy
         e_final = 0
@@ -80,13 +80,15 @@ def Ambiq_energy():
     #VDD = 1.9
     #15.8 uA/MHz
     #HFRC=96 MHz
-    return 1.9 * 15.8e-6*96 * 20e-6 #test value
+    t = 0.8e-3 + 10e-6 + 10e-6
+    return 1.9 * 15.8e-6*96 * t #test value
 
 def MSP430_energy():
-    return 1.8 * 90e-6 * 20e-6 #test value for time
+    t = 0.8e-3 + 10e-6 + 10e-6
+    return 1.8 * 90e-6 * t #test value for time
 
 def MARS_energy():
-    return 0.2 * 2.15e-6 * 20e-6 #test value for time
+    return 0.2 * 2.15e-6 * 20e-3 #test value for time
     
 
 #STEP 3:
