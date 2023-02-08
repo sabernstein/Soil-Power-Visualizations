@@ -101,16 +101,19 @@ print(on_MARS_list0)
 from matplotlib import pyplot as plt
 #plt.plot(days, v0_avg_v, label="voltage")
 
-#plt.plot(days[1:], cap_energy_ambiq, label="cap_ambiq_e")
-#plt.plot(days[1:], cap_energy_mars, label="cap_mars_e")
-#plt.plot(days[1:], cap_v, label="cap_mars_v")
+plt.plot(days[1:], cap_energy_ambiq, label="cap_ambiq_e")
+plt.plot(days[1:], cap_energy_msp430, label="cap_msp430_e")
+plt.plot(days[1:], cap_energy_mars, label="cap_mars_e")
+
 
 # specifying horizontal line type
 #plt.axhline(y = models.Ambiq_energy(), color = 'r', linestyle = '-')
 #plt.axhline(y = models.MARS_energy(), color = 'r', linestyle = '-.')
 
-#plt.legend()
-#plt.show()
+plt.ylabel("Energy in Capacitor (J)")
+plt.xlabel("Timeline (Days)")
+plt.legend()
+plt.show()
 
 bar_graphs.bar_subplots(on_Ambiq_list0, on_MSP430_list0, on_MARS_list0)
 
