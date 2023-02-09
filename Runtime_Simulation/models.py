@@ -94,9 +94,9 @@ def MSP430_energy():
     #90 uA at 1 MHz RAM only
     t = 0.8e-3 + 10e-6 + 10e-6 #tentative time
     e = 1.8 * 90e-6 * t
-    #No startup V reported
-    #0.6 ms startup time at 3V
-    e_startup = 3 * 90e-6 * 6e-4
+    #2.2 min V reported in 8.12.4 Wake-up Characteristics
+    #0.5 ms startup time at 2.2V
+    e_startup = 2.2 * 90e-6 * 5e-4
     return  e + e_startup
 
 def MARS_energy():
