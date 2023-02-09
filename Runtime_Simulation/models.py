@@ -1,4 +1,5 @@
 import math
+from matplotlib import pyplot as plt
 
 def internal_R_v3(R=2000): #return internal resistance of v3 cells in ohms
     #https://www.jstage.jst.go.jp/article/jwet/20/1/20_21-087/_pdf
@@ -185,11 +186,10 @@ def simulate(t_list, v_list, C_h):
             on_MARS = 0
 
     #Debugging print and plots
-    print("# of readings by Ambiq: ", on_Ambiq_list)
+    '''print("# of readings by Ambiq: ", on_Ambiq_list)
     print("# of readings by MSP430: ", on_MSP430_list)
     print("# of readings by MARS: ", on_MARS_list)
 
-    from matplotlib import pyplot as plt
     fig, axs = plt.subplots(3, 1, figsize=(12, 4), sharex=True)
     axs[0].plot(t_list[1:], cap_energy_ambiq, label="E in Ambiq Capacitor")
     axs[0].plot(t_list[1:], cap_energy_msp430, label="E in MSP430 Capacitor")
@@ -210,7 +210,7 @@ def simulate(t_list, v_list, C_h):
 
     plt.xlabel("Timeline (Days)")
     axs[0].legend()
-    axs[1].legend()
+    axs[1].legend()'''
 
     return on_Ambiq_list, on_MSP430_list, on_MARS_list
-     
+    
