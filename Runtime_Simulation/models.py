@@ -81,15 +81,25 @@ def Ambiq_energy():
     #VDD = 1.9
     #15.8 uA/MHz
     #HFRC=96 MHz
-    t = 0.8e-3 + 10e-6 + 10e-6
-    return 1.9 * 15.8e-6*96 * t #test value
+    #startup time of 1 ms
+    t = 0.8e-3 + 10e-6 + 10e-6 #tentative time
+    e = 1.9 * 15.8e-6*96 * t
+    e_startup = 1.9 * 1e-3 * 15.8e-6*96
+    return e + e_startup 
 
 def MSP430_energy():
-    t = 0.8e-3 + 10e-6 + 10e-6
-    return 1.8 * 90e-6 * t #test value for time
+    #1.8V lowest operating voltage
+    #90 uA at 1 MHz RAM only
+    t = 0.8e-3 + 10e-6 + 10e-6 #tentative time
+    e = 1.8 * 90e-6 * t
+    e_startup = 3 * 90e-6 * 6e-4
+    return  e + e_startup
 
 def MARS_energy():
-    return 0.2 * 2.15e-6 * 20e-3 #test value for time
+    t = 20e-3 #tentative time (NIVEDITA)
+    e = 0.2 * 2.15e-6 * t
+    e_startup = 0.5 * 2.15e-6 * 1e-4 #fix this startup time (NIVEDITA)
+    return e + e_startup
     
 
 #STEP 3:
