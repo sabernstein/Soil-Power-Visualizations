@@ -16,14 +16,14 @@ for item in days:
     v3_avg_v.append(0.3)'''
 
 #Call simulate function
-#Ambiq0, MSP430_0, MARS0 = models.simulate(days, v0_avg_v, 10e-6)
-#Ambiq3, MSP430_3, MARS3 = models.simulate(days, v3_avg_v, 10e-6)
+Ambiq0, MSP430_0, MARS0 = models.simulate(days, v0_avg_v, 10e-6)
+Ambiq3, MSP430_3, MARS3 = models.simulate(days, v3_avg_v, 10e-6)
 
 #generate bar graphs
-#visualizations.bar_subplots(Ambiq0, MSP430_0, MARS0, Ambiq3, MSP430_3, MARS3)
+visualizations.bar_subplots(Ambiq0, MSP430_0, MARS0, Ambiq3, MSP430_3, MARS3)
 
 #Find total sensor count
-cap_list = []
+'''cap_list = []
 for ii in range(500):
     cap_list.append(0.2-ii*0.0004)
 print(cap_list)
@@ -51,4 +51,4 @@ print(ambiq3_exec_count)
 print(msp3_exec_count)
 print(mars3_exec_count)
 
-visualizations.count_vs_cap(cap_list, ambiq0_exec_count, msp0_exec_count, mars0_exec_count, ambiq3_exec_count, msp3_exec_count, mars3_exec_count)
+visualizations.count_vs_cap(cap_list, ambiq0_exec_count, msp0_exec_count, mars0_exec_count, ambiq3_exec_count, msp3_exec_count, mars3_exec_count)'''
