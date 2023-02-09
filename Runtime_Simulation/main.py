@@ -24,8 +24,8 @@ for item in days:
 
 #Find total sensor count
 cap_list = []
-for ii in range(20):
-    cap_list.append(10**(-ii))
+for ii in range(500):
+    cap_list.append(0.2-ii*0.0004)
 print(cap_list)
 ambiq0_exec_count = []
 msp0_exec_count = []
