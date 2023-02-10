@@ -82,7 +82,7 @@ def Ambiq_energy():
     #15.8 uA/MHz
     #HFRC=96 MHz
     #startup time of 1 ms
-    t = 0.8e-3 + 10e-6 + 10e-6 #tentative time
+    t = 1e-3 #tentative time
     e = 1.9 * 15.8e-6*96 * t
     #No startup V reported
     #1 ms startup time, no voltage reported so assume the same
@@ -92,7 +92,7 @@ def Ambiq_energy():
 def MSP430_energy():
     #1.8V lowest operating voltage
     #90 uA at 1 MHz RAM only
-    t = 0.8e-3 + 10e-6 + 10e-6 #tentative time
+    t = 1e-3 #tentative time
     e = 1.8 * 90e-6 * t
     #2.2 min V reported in 8.12.4 Wake-up Characteristics
     #0.5 ms startup time at 2.2V
@@ -100,7 +100,7 @@ def MSP430_energy():
     return  e + e_startup
 
 def MARS_energy():
-    t = 20e-3 #tentative time (NIVEDITA)
+    t = 1e-3 #tentative time (NIVEDITA)
     e = 0.2 * 2.15e-6 * t
     e_startup = 0.5 * 2.15e-6 * 1e-4 #fix this startup time (NIVEDITA)
     return e + e_startup
@@ -227,4 +227,8 @@ def simulate(t_list, v_list, C_h):
     axs[1].legend()'''
 
     return on_Ambiq_list, on_MSP430_list, on_MARS_list
-    
+
+def getMax(c_list, input_list):
+    max_value = max(input_list)
+    i = [index for index, item in enumerate(input_list) if item == max_value][0]
+    return i, max_value, c_list[i]
