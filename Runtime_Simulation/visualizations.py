@@ -15,38 +15,43 @@ def bar_subplots(data1, data2, data3, data4, data5, data6):
     my_font2 = font_manager.FontProperties(fname=font_path2, size=20)  # get the font based on the font_path, set font size
     
     
-    fig, axs = plt.subplots(3, 1, figsize=(12, 4), sharex=True)
-    barWidth = 0.5
+    fig, axs = plt.subplots(2, 1, figsize=(12, 4), sharex=True)
+    barWidth = 0.3
     x = np.arange(len(data1))
     x1 = [item + barWidth for item in x]
-    axs[0].bar(x, data1, color="blue", label="v0", width = barWidth, alpha=1)
-    axs[0].bar(x1, data4, color="green", label="v3", width = barWidth, alpha=0.7)
+    x2 = [item + barWidth for item in x1]
+    axs[0].bar(x, data1, color="blue", label="Apollo4", width = barWidth, alpha=1)
+    axs[0].bar(x1, data2, color="green", label="MSP430", width = barWidth, alpha=1)
+    axs[0].bar(x2, data3, color="orange", label="MARS", width = barWidth, alpha=1)
+    axs[0].set_yscale('log')
 
-    axs[1].bar(x, data2, color="blue", label="v0", width = barWidth, alpha=1)
-    axs[1].bar(x1, data5, color="green", label="v3", width = barWidth, alpha=0.7)
+    axs[1].bar(x, data4, color="blue", label="Apollo4", width = barWidth, alpha=1)
+    axs[1].bar(x1, data5, color="green", label="MSP430", width = barWidth, alpha=1)
+    axs[1].bar(x2, data6, color="orange", label="MARS", width = barWidth, alpha=1)
+    axs[1].set_yscale('log')
 
-    axs[2].bar(x, data3, color="blue", label="v0", width = barWidth, alpha=1)
-    axs[2].bar(x1, data6, color="green", label="v3", width = barWidth, alpha=0.7)
+    #axs[2].bar(x, data3, color="blue", label="v0", width = barWidth, alpha=1)
+    #axs[2].bar(x1, data6, color="green", label="v3", width = barWidth, alpha=0.7)
     
-    axs[0].get_yaxis().get_major_formatter().set_scientific(True)
-    axs[1].get_yaxis().get_major_formatter().set_scientific(True)
-    axs[2].get_yaxis().get_major_formatter().set_scientific(True)
+    #axs[0].get_yaxis().get_major_formatter().set_scientific(True)
+    #axs[1].get_yaxis().get_major_formatter().set_scientific(True)
+    #axs[2].get_yaxis().get_major_formatter().set_scientific(True)
 
-    plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
-    axs[0].ticklabel_format(style='plain')
-    axs[0].yaxis.set_major_formatter(mtick.FormatStrFormatter('%.2e'))
-    axs[1].ticklabel_format(style='plain')
-    axs[1].yaxis.set_major_formatter(mtick.FormatStrFormatter('%.2e'))
-    axs[2].ticklabel_format(style='plain')
-    axs[2].yaxis.set_major_formatter(mtick.FormatStrFormatter('%.2e'))
+    #plt.ticklabel_format(style='sci', axis='y', scilimits=(0,0))
+    #axs[0].ticklabel_format(style='plain')
+    #axs[0].yaxis.set_major_formatter(mtick.FormatStrFormatter('%.2e'))
+    #axs[1].ticklabel_format(style='plain')
+    #axs[1].yaxis.set_major_formatter(mtick.FormatStrFormatter('%.2e'))
+    #axs[2].ticklabel_format(style='plain')
+    #axs[2].yaxis.set_major_formatter(mtick.FormatStrFormatter('%.2e'))
     # Put a legend below current axis
-    plt.legend(loc='upper center', bbox_to_anchor=(0.5, 3.78),
+    plt.legend(loc='upper center', bbox_to_anchor=(0.5, 2.4),
           fancybox=True, ncol=4, prop=my_font, frameon=False)
 
     # axs.flat[0].set(ylabel="Ambiq")
-    axs.flat[0].set_ylabel("Ambiq", fontproperties=my_font2)
-    axs.flat[1].set_ylabel("MSP430", fontproperties=my_font2)
-    axs.flat[2].set_ylabel("MARS", fontproperties=my_font2)
+    axs.flat[0].set_ylabel("v0", fontproperties=my_font2)
+    axs.flat[1].set_ylabel("v3", fontproperties=my_font2)
+    #axs.flat[2].set_ylabel("MARS", fontproperties=my_font2)
 
 
     #set font type of tickmarks
@@ -62,13 +67,13 @@ def bar_subplots(data1, data2, data3, data4, data5, data6):
         label.set_fontproperties(my_font2)
 
     #set font type of tickmarks
-    for label in axs[2].get_xticklabels():
-        label.set_fontproperties(my_font2)
-    for label in axs[2].get_yticklabels():
-        label.set_fontproperties(my_font2)
+    # for label in axs[2].get_xticklabels():
+    #     label.set_fontproperties(my_font2)
+    # for label in axs[2].get_yticklabels():
+    #     label.set_fontproperties(my_font2)
 
     plt.subplots_adjust(left=0.15, right=0.9, top=0.9, bottom=0.1)
-    fig.text(0.03, 0.5, "Number of Sensor Readings", ha='center', va='center', rotation='vertical', fontproperties=my_font, size=22)
+    fig.text(0.07, 0.5, "Number of Operations", ha='center', va='center', rotation='vertical', fontproperties=my_font, size=22)
     # plt.ylabel("Number of Sensor Readings", fontproperties=my_font, size=22)
     plt.xlabel("Timeline (Days)", fontproperties=my_font, size=22)
     
@@ -76,7 +81,7 @@ def bar_subplots(data1, data2, data3, data4, data5, data6):
     plt.show()
 
 #Test data for this function
-""" list1 = [139, 1414, 1413, 1414, 1412, 1414, 1414, 1413, 1414, 1413, 1414, 1414, 1413, 1414, 372, 1406, 1414, 1414, 1413, 1414, 1413, 1414, 1414, 1413, 1414, 1413, 1362, 1412, 1411, 1412, 1412, 1412, 1411, 1412, 1412, 1412, 1411, 1412, 1412, 1412, 1411, 1412, 1029, 0, 0, 0, 0, 0, 0, 269, 1412, 1411, 1412, 1412, 1400, 1412, 1411, 1412, 1412, 1411, 1412, 1411, 1412, 1411, 1412, 1412, 1313, 1412, 1412, 1411, 740]
+'''list1 = [139, 1414, 1413, 1414, 1412, 1414, 1414, 1413, 1414, 1413, 1414, 1414, 1413, 1414, 372, 1406, 1414, 1414, 1413, 1414, 1413, 1414, 1414, 1413, 1414, 1413, 1362, 1412, 1411, 1412, 1412, 1412, 1411, 1412, 1412, 1412, 1411, 1412, 1412, 1412, 1411, 1412, 1029, 0, 0, 0, 0, 0, 0, 269, 1412, 1411, 1412, 1412, 1400, 1412, 1411, 1412, 1412, 1411, 1412, 1411, 1412, 1411, 1412, 1412, 1313, 1412, 1412, 1411, 740]
 list2 = [0, 1109, 1413, 1414, 1412, 1414, 1414, 1413, 1414, 1413, 1414, 1414, 1413, 1414, 372, 1406, 1414, 1414,1413, 1414, 1413, 1414, 1414, 1413, 1414, 1413, 1362, 1412, 1411, 1412, 1412, 1412, 1411, 1412, 1412, 1412, 1411, 1412, 1412, 1412, 1411, 1412, 988, 0, 0, 0, 0, 0, 0, 198, 1412, 1411, 1412, 1412, 1400, 1412, 1411,1412, 1412, 1411, 1412, 1411, 1412, 1411, 1412, 1412, 1313, 1412, 1412, 1411, 611]
 list3 = [0, 474, 1413, 1414, 1412, 1414, 1414, 1413, 1414, 1413, 1414, 1414, 1413, 1414, 372, 1406, 1414, 1414,1413, 1414, 1413, 1414, 1414, 1413, 1414, 1413, 1362, 1412, 1411, 1412, 1412, 1412, 1411, 1412, 1412, 1412,1411, 1412, 1412, 1412, 1411, 1412, 908, 0, 0, 0, 0, 0, 0, 84, 1412, 1411, 1412, 1412, 1400, 1412, 1411, 1412, 1412, 1411, 1412, 1411, 1412, 1411, 1412, 1412, 1313, 1412, 1412, 1411, 364]
 
@@ -86,7 +91,7 @@ list6 = [0, 474, 1413, 1414, 1412, 1414, 1414, 1413, 1414, 1413, 1414, 1414, 141
 
 print(len(list1), len(list2), len(list3))
 
-bar_subplots(list1, list2, list3, list4, list5, list6) """
+bar_subplots(list1, list2, list3, list4, list5, list6)'''
 
 def count_vs_cap(cap_list, data1, data2, data3, data4, data5, data6):
     #import custom font
@@ -109,9 +114,9 @@ def count_vs_cap(cap_list, data1, data2, data3, data4, data5, data6):
     axs[1].plot(cap_list, data6, color="orange", label="MARS", alpha=1)
     axs[1].set_yscale('log')
     
-    axs.flat[0].set_ylabel("# of Readings", fontproperties=my_font2)
+    axs.flat[0].set_ylabel("# of Operations", fontproperties=my_font2)
     axs.flat[0].set_title("v0", fontproperties=my_font2)
-    axs.flat[1].set_ylabel("# of Readings", fontproperties=my_font2)
+    axs.flat[1].set_ylabel("# of Operations", fontproperties=my_font2)
     axs.flat[1].set_title("v3", fontproperties=my_font2)
     plt.xlabel("Capacitance (F)", fontproperties=my_font, size=22)
 
