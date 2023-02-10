@@ -16,8 +16,10 @@ for item in days:
     v3_avg_v.append(0.3)'''
 
 #Call simulate function
-Ambiq0, MSP430_0, MARS0 = models.simulate(days, v0_avg_v, 0.0069)
-Ambiq3, MSP430_3, MARS3 = models.simulate(days, v3_avg_v, 0.0069)
+C0 = [0.0072, 0.0069, 0.0069]
+C3 = [0.0069, 0.0069, 0.0069]
+Ambiq0, MSP430_0, MARS0 = models.simulate(days, v0_avg_v, C0)
+Ambiq3, MSP430_3, MARS3 = models.simulate(days, v3_avg_v, C3)
 
 #generate bar graphs
 visualizations.bar_subplots(Ambiq0, MSP430_0, MARS0, Ambiq3, MSP430_3, MARS3)

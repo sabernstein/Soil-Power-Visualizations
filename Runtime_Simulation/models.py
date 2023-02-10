@@ -149,9 +149,9 @@ def simulate(t_list, v_list, C_h):
         t = 24*60*60*(t_list[jj] - t_list[jj-1]) #dt is time since last measurement in seconds
 
         #update amount of energy in capacitor given v0 output
-        E_Ambiq, v_ambiq = update_capEnergy(e_ambiq_init, V_applied=v_list[jj], R=internal_R_v0(), C=C_h, dt=t)
-        E_MSP430, v_msp430 = update_capEnergy(e_msp430_init, V_applied=v_list[jj], R=internal_R_v0(), C=C_h, dt=t)
-        E_MARS, v_mars = update_capEnergy(e_mars_init, V_applied=v_list[jj], R=internal_R_v0(), C=C_h, dt=t)
+        E_Ambiq, v_ambiq = update_capEnergy(e_ambiq_init, V_applied=v_list[jj], R=internal_R_v0(), C=C_h[0], dt=t)
+        E_MSP430, v_msp430 = update_capEnergy(e_msp430_init, V_applied=v_list[jj], R=internal_R_v0(), C=C_h[0], dt=t)
+        E_MARS, v_mars = update_capEnergy(e_mars_init, V_applied=v_list[jj], R=internal_R_v0(), C=C_h[0], dt=t)
 
         
         #Check if we have enough power to turn things on
