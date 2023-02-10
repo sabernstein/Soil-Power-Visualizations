@@ -200,7 +200,7 @@ def simulate(t_list, v_list, C_h):
             on_MARS = 0
 
     #Debugging print and plots
-    print("# of readings by Ambiq: ", on_Ambiq_list)
+    '''print("# of readings by Ambiq: ", on_Ambiq_list)
     print("# of readings by MSP430: ", on_MSP430_list)
     print("# of readings by MARS: ", on_MARS_list)
 
@@ -224,7 +224,7 @@ def simulate(t_list, v_list, C_h):
 
     plt.xlabel("Timeline (Days)")
     axs[0].legend()
-    axs[1].legend()
+    axs[1].legend()'''
 
     return on_Ambiq_list, on_MSP430_list, on_MARS_list
 
