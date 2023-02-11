@@ -29,13 +29,13 @@ print(sum(MSP430_3))
 print(sum(MARS3))
 
 #generate bar graphs
-visualizations.bar_subplots2(MARS0, MARS3) # generate graph 1
+# visualizations.bar_subplots2(MARS0, MARS3) # generate graph 1
 #visualizations.bar_subplots(Ambiq0, MSP430_0, MARS0, Ambiq3, MSP430_3, MARS3) # generate graph 2
 
 #Find total sensor count
-'''cap_list = []
-for ii in range(50):
-    cap_list.append(0.015-ii*0.0003)
+cap_list = []
+for ii in range(1000):
+    cap_list.append(0.1-ii*1e-4)
 print(cap_list)
 ambiq0_exec_count = []
 msp0_exec_count = []
@@ -68,4 +68,4 @@ print(models.getMax(cap_list, ambiq3_exec_count))
 print(models.getMax(cap_list, msp3_exec_count))
 print(models.getMax(cap_list, mars3_exec_count))
 
-visualizations.count_vs_cap(cap_list, ambiq0_exec_count, msp0_exec_count, mars0_exec_count, ambiq3_exec_count, msp3_exec_count, mars3_exec_count)'''
+visualizations.count_vs_cap(cap_list, ambiq0_exec_count, msp0_exec_count, mars0_exec_count, ambiq3_exec_count, msp3_exec_count, mars3_exec_count)
