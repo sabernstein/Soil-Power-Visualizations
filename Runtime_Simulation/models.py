@@ -102,7 +102,7 @@ def MSP430_energy():
 def MARS_energy():
     t = 1e-3 #tentative time (NIVEDITA)
     e = 0.2 * 2.15e-6 * t
-    e_startup = 0.5 * 2.15e-6 * 1e-4 #fix this startup time (NIVEDITA)
+    e_startup = 0 #analog device, no startup needed :)
     return e + e_startup
     
 

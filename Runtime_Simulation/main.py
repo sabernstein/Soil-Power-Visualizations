@@ -29,8 +29,8 @@ print(sum(MSP430_3))
 print(sum(MARS3))
 
 #generate bar graphs
-visualizations.bar_subplots2(MARS0, MARS3) # generate graph 1
-#visualizations.bar_subplots(Ambiq0, MSP430_0, MARS0, Ambiq3, MSP430_3, MARS3) # generate graph 2
+#visualizations.bar_subplots2(MARS0, MARS3) # generate graph 1
+visualizations.bar_subplots(Ambiq0, MSP430_0, MARS0, Ambiq3, MSP430_3, MARS3) # generate graph 2
 
 #Find total sensor count
 '''cap_list = []
