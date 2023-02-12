@@ -29,43 +29,43 @@ print(sum(MSP430_3))
 print(sum(MARS3))
 
 #generate bar graphs
-#visualizations.bar_subplots2(MARS0, MARS3) # generate graph 1
-visualizations.bar_subplots(Ambiq0, MSP430_0, MARS0, Ambiq3, MSP430_3, MARS3) # generate graph 2
+visualizations.bar_subplots2(MARS0, MARS3) # generate graph 1
+# visualizations.bar_subplots(Ambiq0, MSP430_0, MARS0, Ambiq3, MSP430_3, MARS3) # generate graph 2
 
 #Find total sensor count
-cap_list = []
-for ii in range(1000):
-    cap_list.append(0.1-ii*1e-4)
-print(cap_list)
-ambiq0_exec_count = []
-msp0_exec_count = []
-mars0_exec_count = []
-ambiq3_exec_count = []
-msp3_exec_count = []
-mars3_exec_count = []
+# cap_list = []
+# for ii in range(1000):
+#     cap_list.append(0.1-ii*1e-4)
+# print(cap_list)
+# ambiq0_exec_count = []
+# msp0_exec_count = []
+# mars0_exec_count = []
+# ambiq3_exec_count = []
+# msp3_exec_count = []
+# mars3_exec_count = []
 
-for c in cap_list:
-    Ambiq0, MSP430_0, MARS0 = models.simulate(days, v0_avg_v, [c,c,c,c,c,c])
-    Ambiq3, MSP430_3, MARS3 = models.simulate(days, v3_avg_v, [c,c,c,c,c,c])
-    ambiq0_exec_count.append(sum(Ambiq0))
-    msp0_exec_count.append(sum(MSP430_0))
-    mars0_exec_count.append(sum(MARS0))
-    ambiq3_exec_count.append(sum(Ambiq3))
-    msp3_exec_count.append(sum(MSP430_3))
-    mars3_exec_count.append(sum(MARS3))
+# for c in cap_list:
+#     Ambiq0, MSP430_0, MARS0 = models.simulate(days, v0_avg_v, [c,c,c,c,c,c])
+#     Ambiq3, MSP430_3, MARS3 = models.simulate(days, v3_avg_v, [c,c,c,c,c,c])
+#     ambiq0_exec_count.append(sum(Ambiq0))
+#     msp0_exec_count.append(sum(MSP430_0))
+#     mars0_exec_count.append(sum(MARS0))
+#     ambiq3_exec_count.append(sum(Ambiq3))
+#     msp3_exec_count.append(sum(MSP430_3))
+#     mars3_exec_count.append(sum(MARS3))
 
-print(ambiq0_exec_count)
-print(msp0_exec_count)
-print(mars0_exec_count)
-print(ambiq3_exec_count)
-print(msp3_exec_count)
-print(mars3_exec_count)
+# print(ambiq0_exec_count)
+# print(msp0_exec_count)
+# print(mars0_exec_count)
+# print(ambiq3_exec_count)
+# print(msp3_exec_count)
+# print(mars3_exec_count)
 
-print(models.getMax(cap_list, ambiq0_exec_count))
-print(models.getMax(cap_list, msp0_exec_count))
-print(models.getMax(cap_list, mars0_exec_count))
-print(models.getMax(cap_list, ambiq3_exec_count))
-print(models.getMax(cap_list, msp3_exec_count))
-print(models.getMax(cap_list, mars3_exec_count))
+# print(models.getMax(cap_list, ambiq0_exec_count))
+# print(models.getMax(cap_list, msp0_exec_count))
+# print(models.getMax(cap_list, mars0_exec_count))
+# print(models.getMax(cap_list, ambiq3_exec_count))
+# print(models.getMax(cap_list, msp3_exec_count))
+# print(models.getMax(cap_list, mars3_exec_count))
 
-visualizations.count_vs_cap(cap_list, ambiq0_exec_count, msp0_exec_count, mars0_exec_count, ambiq3_exec_count, msp3_exec_count, mars3_exec_count)
+# visualizations.count_vs_cap(cap_list, ambiq0_exec_count, msp0_exec_count, mars0_exec_count, ambiq3_exec_count, msp3_exec_count, mars3_exec_count)
