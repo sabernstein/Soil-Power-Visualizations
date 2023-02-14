@@ -9,7 +9,7 @@ from matplotlib import font_manager
 
 columns = defaultdict(list) # each value in each column is appended to a list
 
-with open('Final_Data/v3_Data.csv') as f:
+with open('Final_Data/v3_old_Data.csv') as f:
     reader = csv.DictReader(f) # read rows into a dictionary format
     for row in reader: # read a row as {column1: value1, column2: value2,...}
         for (k,v) in row.items(): # go over each column name and value 
@@ -149,11 +149,19 @@ ax.plot(days, y5, label = "v0 Cell 2", alpha = 0.2, color= (0.5,0.4,0))
 
 ax.plot(days, y3, label = "v3 Cell 3", alpha = 0.2, color= (0,0.6,0.5))
 ax.plot(days, y6, label = "v0 Cell 3", alpha = 0.2, color= (0.5,0.6,0))
-
+# print("maxs")
+# print(max(v_ave))
+# print(max(p_ave))
+# print(max(y1))
+# print(max(y4))
+# print(max(y2))
+# print(max(y5))
+# print(max(y3))
+# print(max(y6))
 ax.legend("upper left")
 
-# print(days[35048])
-# print(days[64603])
+print(days[len(days)-1])
+
 #example of vertical line plotting
 # ax.axvspan(8, 14, alpha=0.5, color='red')
 # started drying cells'
@@ -162,10 +170,12 @@ ax.legend("upper left")
 plt.axvspan(0, 25.536006944444445, color = 'blue', alpha = 0.1)
 plt.axvspan(25.536006944444445, 46.53662037037037, color = 'yellow', alpha = 0.2)
 plt.axvspan(46.53662037037037, 67.1998263888889, color = 'blue', alpha = 0.1)
-plt.axvspan(67.1998263888889, 74, color = 'yellow', alpha = 0.2)
+plt.axvspan(67.1998263888889,74, color = 'yellow', alpha = 0.2)
 #plt.axvspan(67.1998263888889, 69.89245370370371, color = 'yellow', alpha = 0.2)
 
-plt.axhline(y=20, color='green', linestyle="dashed") #number came from lowest MARS startup voltage (0.2V*0.2V)/2000 ohms = 20 uW
+plt.axvline(x=28.70048611111111, color='green', linestyle='dashed')
+
+# plt.axhline(y=20, color='green', linestyle="dashed") #number came from lowest MARS startup voltage (0.2V*0.2V)/2000 ohms = 20 uW
 # # label = 'started drying again'
 # plt.axvspan(74.551516, 85, color = 'yellow', alpha = 0.2)
 
@@ -177,14 +187,14 @@ font_path2 = './font/linux_libertine/LinLibertine_R.ttf'  # the location of the 
 my_font2 = font_manager.FontProperties(fname=font_path2, size=22)  # get the font based on the font_path, set font size
 
 #set font type of x and y axis
-plt.ylabel('Power (µW)', fontproperties=my_font, size=22)
-plt.xlabel('Timeline (Days)', fontproperties=my_font, size=22)
+plt.ylabel('Power (µW)', fontproperties=my_font, size=22, labelpad=20)
+plt.xlabel('Timeline (Days)', fontproperties=my_font, size=22, labelpad=20)
 
-plt.text(1.02, 22, 'MARS', size=20,  color='green', fontproperties=my_font)
-plt.text(9.17, 226.7, 'Flooded', size=20,  fontproperties=my_font)
-plt.text(33.53, 226.7, 'Drying',  size=20, fontproperties=my_font)
-plt.text(54.46, 226.7, 'Flooded',  size=20, fontproperties=my_font)
-plt.text(67.5, 226.7, 'Drying',  size=20, fontproperties=my_font)
+# plt.text(1.02, 22, 'MARS', size=20,  color='green', fontproperties=my_font)
+plt.text(9.17, 222.7, 'Flooded', size=20,  fontproperties=my_font)
+plt.text(33.50, 222.7, 'Drying',  size=20, fontproperties=my_font)
+plt.text(53.46, 222.7, 'Flooded',  size=20, fontproperties=my_font)
+plt.text(67.5, 222.7, 'Drying',  size=20, fontproperties=my_font)
 
 #set font type of tickmarks
 for label in ax.get_xticklabels():
@@ -200,7 +210,7 @@ ax.set_position([box.x0, box.y0 + box.height * 0.1,
                  box.width, box.height * 0.9])
 
 # Put a legend below current axis
-ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.18),
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.25),
           fancybox=True, ncol=4, prop=my_font, frameon=False)
 
 plt.show()

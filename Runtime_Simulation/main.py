@@ -16,8 +16,8 @@ for item in days:
     v3_avg_v.append(0.3)'''
 
 #Call simulate function
-C0 = [0.0072, 0.0069, 0.0069]
-C3 = [0.0069, 0.0069, 0.0069]
+C0 = [0.007000000000000006, 0.007000000000000006, 0.007000000000000006]
+C3 = [0.007000000000000006, 0.007000000000000006, 0.007000000000000006]
 Ambiq0, MSP430_0, MARS0 = models.simulate(days, v0_avg_v, C0)
 Ambiq3, MSP430_3, MARS3 = models.simulate(days, v3_avg_v, C3)
 
@@ -29,14 +29,15 @@ print(sum(MSP430_3))
 print(sum(MARS3))
 
 #generate bar graphs
-visualizations.bar_subplots2(MARS0, MARS3) # generate graph 1
-# visualizations.bar_subplots(Ambiq0, MSP430_0, MARS0, Ambiq3, MSP430_3, MARS3) # generate graph 2
+# visualizations.bar_subplots2(MARS0, MARS3) # generate graph 1
+visualizations.bar_subplots(Ambiq0, MSP430_0, MARS0, Ambiq3, MSP430_3, MARS3) # generate graph 2
 
 #Find total sensor count
 # cap_list = []
 # for ii in range(1000):
 #     cap_list.append(0.1-ii*1e-4)
 # print(cap_list)
+
 # ambiq0_exec_count = []
 # msp0_exec_count = []
 # mars0_exec_count = []
@@ -60,7 +61,7 @@ visualizations.bar_subplots2(MARS0, MARS3) # generate graph 1
 # print(ambiq3_exec_count)
 # print(msp3_exec_count)
 # print(mars3_exec_count)
-
+# print("these values: ")
 # print(models.getMax(cap_list, ambiq0_exec_count))
 # print(models.getMax(cap_list, msp0_exec_count))
 # print(models.getMax(cap_list, mars0_exec_count))

@@ -93,7 +93,7 @@ def MSP430_energy():
     #1.8V lowest operating voltage
     #90 uA at 1 MHz RAM only
     t = 1e-3 #tentative time
-    e = 1.8 * 90e-6 * t
+    e = 3 * 90e-6 * t
     #2.2 min V reported in 8.12.4 Wake-up Characteristics
     #0.5 ms startup time at 2.2V
     e_startup = 2.2 * 90e-6 * 5e-4

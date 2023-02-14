@@ -1,4 +1,5 @@
 import csv
+import matplotlib.ticker as mtick
 from collections import defaultdict
 import numpy as np
 from scipy.signal import butter, lfilter, freqz
@@ -163,7 +164,9 @@ my_font = font_manager.FontProperties(fname=font_path, size=21)  # get the font 
 font_path2 = './font/linux_libertine/LinLibertine_R.ttf'  # the location of the font file
 my_font2 = font_manager.FontProperties(fname=font_path2, size=21)  # get the font based on the font_path, set font size
 
-fig, (ax1, ax2) = plt.subplots(2)
+fig, ax1 = plt.subplots()
+fig, ax2 = plt.subplots()
+
 
 # ax1.plot(x, y)
 # ax2.plot(x, -y)
@@ -171,13 +174,30 @@ fig, (ax1, ax2) = plt.subplots(2)
 
 ax1.plot(days2[:1048555], power1_filtered, label = "Cell 1", alpha = 1, color= "green")
 ax1.plot(days2[:1048555], power2_filtered, label = "Cell 2", alpha = 1, color= "blue")
-ax2.plot(days[1800:190979], vwc_filtered[1800:190979], alpha = 1, color= "red")
+ax2 = ax1.twinx()
+ax2.plot(days[1800:190979], vwc_filtered[1800:190979], label = "VWC", alpha = 1, color= "red")
+
+print("maxs")
+print(max(power1_filtered))
+print(max(power2_filtered))
+
 
 # ax2.set_xlim(xmax=)
 ax2.set_ylim(ymin=0)
 ax2.set_ylim(ymax=80)
-ax1.legend(loc='upper center', bbox_to_anchor=(0.5, 1.25),
+# ax2.legend(loc='upper center', bbox_to_anchor=(0.66, 1.25),
+#           fancybox=True, ncol=4, prop=my_font, frameon=False)
+# ax1.legend(loc='upper center', bbox_to_anchor=(0.4, 1.25),
+#           fancybox=True, ncol=4, prop=my_font, frameon=False)
+
+ax2.legend(loc='upper center', bbox_to_anchor=(0.66, 1.2),
           fancybox=True, ncol=4, prop=my_font, frameon=False)
+ax1.legend(loc='upper center', bbox_to_anchor=(0.4, 1.2),
+          fancybox=True, ncol=4, prop=my_font, frameon=False)
+
+
+
+
 
 
 # ax3.legend()
@@ -188,10 +208,10 @@ ax1.legend(loc='upper center', bbox_to_anchor=(0.5, 1.25),
 # ax1.legend(prop={'family':my_font, 'size':20})
 #set font type of x and y axis
 # plt.ylabel('Volumetric Water Content', fontproperties=my_font)
-ax2.set_ylabel('Vol. Water Content (%)', fontproperties=my_font)
-ax1.set_ylabel('Power (µW)', fontproperties=my_font)
-
-plt.xlabel('Timeline (Days)', fontproperties=my_font)
+ax2.set_ylabel('Vol. Water Content (%)', fontproperties=my_font, labelpad=20)
+ax1.set_ylabel('Power (µW)', fontproperties=my_font, labelpad=10)
+ax2.yaxis.set_major_locator(mtick.MaxNLocator(5))
+ax1.set_xlabel('Timeline (Days)', fontproperties=my_font, labelpad=20)
 
 #set font type of tickmarks
 
