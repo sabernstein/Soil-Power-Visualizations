@@ -34,11 +34,8 @@ def internal_R_v0(R=2000): #return internal resistance of v0 cells in ohms
 
 def SMFC_current(v, R):
     return v/R
-
-def cap_leakage(insul_R=1000e6, rated_V=4):
-    #https://media.digikey.com/pdf/Data%20Sheets/Samsung%20PDFs/CL05X106MR5NUNC_Spec.pdf
-    return rated_V/insul_R
-
+#OLD MODEL
+'''
 def update_capVoltage(v0, V_applied, R, C, dt):
     #equation source: https://electronics.stackexchange.com/questions/264180/deriving-the-formula-from-scratch-for-charging-a-capacitor
     # v0: initial voltage
@@ -56,6 +53,10 @@ def update_capVoltage(v0, V_applied, R, C, dt):
         V_new = v0 #assume we won't discharge if voltage is lower
         #print("Not charging V_new: " + str(V_new) + ", V_applied: " + str(V_applied))
     return V_new #unit is volts
+
+def cap_leakage(insul_R=1000e6, rated_V=4):
+    #https://media.digikey.com/pdf/Data%20Sheets/Samsung%20PDFs/CL05X106MR5NUNC_Spec.pdf
+    return rated_V/insul_R
 
 def update_capEnergy(e0, V_applied, R, C, dt):
     # e0: initial energy stored
@@ -75,6 +76,38 @@ def update_capEnergy(e0, V_applied, R, C, dt):
         e_final = 0
     #print("e_final: " + str(e_final))
     return e_final, v_cap #subtract leaked energy
+'''
+
+#NEW MODEL
+def cap_leakage(E_cap_tn, timestep):
+    #Spec for KEMET T491
+    return 0.01e-6 * E_cap_tn * timestep
+
+def Matrix_Power(V, R):
+    #efficiency interpolated from https://www.analog.com/media/en/technical-documentation/data-sheets/ADP5091-5092.pdf
+    #given I_in = 100 uA and SYS = 3V
+    #V is the voltage (V) of the SMFC we captured
+    #R is the resistance (ohms) of the load we used to get that voltage trace
+    Eta = -292.25665*V**4 + 784.30311*V**3 - 770.71691*V**2 + 342.00502*V + 15.83307
+    Pmax = (V**2)/R
+    Pout = Eta*Pmax
+    return Pout
+
+def update_capEnergy(e0, V_applied, R, C, dt):
+    # e0: initial energy stored
+    # V_applied: voltage from SMFC
+    # R: internal resistance of SMFC
+    # C: capacitance of capacitor
+    # dt: time step since last data point
+    if e0 > 0:
+        e0 = math.sqrt(2*e0/C)
+    else:
+        e0 = 0
+    e_cap = e0 + Matrix_Power(V_applied, R)*dt - cap_leakage(e0, dt)
+    v_cap = math.sqrt(2*e_cap/C)
+    if e_cap < 0: #Not charging if leakage is greater than energy
+        e_cap = 0
+    return e_cap, v_cap #output final e and v
 
 def Ambiq_energy():
     #page 188 of Apollo4 SoC Datasheet
@@ -104,7 +137,6 @@ def MARS_energy():
     e = 0.2 * 2.15e-6 * t
     e_startup = 0 #analog device, no startup needed :)
     return e + e_startup
-    
 
 #STEP 3:
 # For each day:
