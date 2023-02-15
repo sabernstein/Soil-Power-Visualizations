@@ -268,12 +268,12 @@ my_font2 = font_manager.FontProperties(fname=font_path2, size=22)  # get the fon
 plt.ylabel('Power (µW)', fontproperties=my_font, size=22)
 plt.xlabel('Timeline (Days)', fontproperties=my_font, size=22)
 #adding text inside the plot
-plt.axhline(y=20, color='green', linestyle="dashed")
-plt.text(1.02, 22, 'MARS', size=20,  color='green', fontproperties=my_font)
-plt.text(22.11, 245.5, 'Flooded', fontsize = 20,  fontproperties=my_font)
-plt.text(51, 245.5, 'Drying', fontsize = 20,  fontproperties=my_font)
-plt.text(63, 245.5, 'Flooded', fontsize = 20,  fontproperties=my_font)
-plt.text(75.5, 245.5, 'Drying', fontsize = 20,  fontproperties=my_font)
+# plt.axvline(x=30, color='green')
+# plt.text(1.02, 22, 'MARS', size=20,  color='green', fontproperties=my_font)
+plt.text(22.11, 240.5, 'Flooded', fontsize = 20,  fontproperties=my_font)
+plt.text(51, 240.5, 'Drying', fontsize = 20,  fontproperties=my_font)
+plt.text(63, 240.5, 'Flooded', fontsize = 20,  fontproperties=my_font)
+plt.text(75.5, 240.5, 'Drying', fontsize = 20,  fontproperties=my_font)
 #set font type of tickmarks
 for label in ax.get_xticklabels():
     label.set_fontproperties(my_font2)
@@ -281,6 +281,6 @@ for label in ax.get_yticklabels():
     label.set_fontproperties(my_font2)
 
 #set font type of legend
-ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.18),
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.25),
           fancybox=True, ncol=4, prop=my_font, frameon=False)
 plt.show()

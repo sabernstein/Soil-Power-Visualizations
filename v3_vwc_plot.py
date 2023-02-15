@@ -7,7 +7,7 @@ from datetime import datetime
 
 columns = defaultdict(list) # each value in each column is appended to a list
 
-with open('Final_Data/v3_Data.csv') as f:
+with open('Final_Data/v3_old_Data.csv') as f:
     reader = csv.DictReader(f) # read rows into a dictionary format
     for row in reader: # read a row as {column1: value1, column2: value2,...}
         for (k,v) in row.items(): # go over each column name and value 
@@ -164,8 +164,8 @@ font_path2 = './font/linux_libertine/LinLibertine_R.ttf'  # the location of the 
 my_font2 = font_manager.FontProperties(fname=font_path2, size=22)  # get the font based on the font_path, set font size
 
 #set font type of x and y axis
-plt.ylabel('Power (µW)', fontproperties=my_font)
-plt.xlabel('Volumetric Water Content (%)', fontproperties=my_font)
+plt.ylabel('Power (µW)', fontproperties=my_font, size=25, labelpad=20)
+plt.xlabel('Volumetric Water Content (%)', fontproperties=my_font, size=25,labelpad=20)
 
 # plt.text(11.17, 226.7, 'Flooded', size=18,  fontproperties=my_font)
 # plt.text(33.53, 226.7, 'Drying',  size=18, fontproperties=my_font)
@@ -178,7 +178,7 @@ for label in ax.get_yticklabels():
     label.set_fontproperties(my_font2)
 
 #set font type of legend
-ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.18),
+ax.legend(loc='upper center', bbox_to_anchor=(0.5, 1.25),
           fancybox=True, ncol=4, prop=my_font, frameon=False)
 # ax.plot(days[93660:], vwc_filter[93660:], alpha = 1, color= (0,0.1,1))
 plt.show()
