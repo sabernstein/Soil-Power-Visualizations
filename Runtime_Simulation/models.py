@@ -35,48 +35,48 @@ def internal_R_v0(R=2000): #return internal resistance of v0 cells in ohms
 def SMFC_current(v, R):
     return v/R
 #OLD MODEL
-'''
-def update_capVoltage(v0, V_applied, R, C, dt):
-    #equation source: https://electronics.stackexchange.com/questions/264180/deriving-the-formula-from-scratch-for-charging-a-capacitor
-    # v0: initial voltage
-    # V_applied: voltage from SMFC
-    # R: internal resistance of SMFC
-    # C: capacitance of capacitor
-    # dt: time step since last data point
-    #assume constant current in this timestep
-    if V_applied > v0: #only charge if applied voltage is greater than cap voltage
-        V_new = v0 + V_applied * (1-math.exp(-dt/(R*C)))
-        if V_new > V_applied: #cap voltage can't be bigger than applied
-            V_new = V_applied
-        #print("Charging V_new: " + str(V_new) + ", V_applied: " + str(V_applied))
-    else:
-        V_new = v0 #assume we won't discharge if voltage is lower
-        #print("Not charging V_new: " + str(V_new) + ", V_applied: " + str(V_applied))
-    return V_new #unit is volts
 
-def cap_leakage(insul_R=1000e6, rated_V=4):
-    #https://media.digikey.com/pdf/Data%20Sheets/Samsung%20PDFs/CL05X106MR5NUNC_Spec.pdf
-    return rated_V/insul_R
+# def update_capVoltage(v0, V_applied, R, C, dt):
+#     #equation source: https://electronics.stackexchange.com/questions/264180/deriving-the-formula-from-scratch-for-charging-a-capacitor
+#     # v0: initial voltage
+#     # V_applied: voltage from SMFC
+#     # R: internal resistance of SMFC
+#     # C: capacitance of capacitor
+#     # dt: time step since last data point
+#     #assume constant current in this timestep
+#     if V_applied > v0: #only charge if applied voltage is greater than cap voltage
+#         V_new = v0 + V_applied * (1-math.exp(-dt/(R*C)))
+#         if V_new > V_applied: #cap voltage can't be bigger than applied
+#             V_new = V_applied
+#         #print("Charging V_new: " + str(V_new) + ", V_applied: " + str(V_applied))
+#     else:
+#         V_new = v0 #assume we won't discharge if voltage is lower
+#         #print("Not charging V_new: " + str(V_new) + ", V_applied: " + str(V_applied))
+#     return V_new #unit is volts
 
-def update_capEnergy(e0, V_applied, R, C, dt):
-    # e0: initial energy stored
-    # V_applied: voltage from SMFC
-    # R: internal resistance of SMFC
-    # C: capacitance of capacitor
-    # dt: time step since last data point
-    if e0 > 0:
-        v0 = math.sqrt(2*e0/C)
-    else:
-        v0 = 0
-    v_cap = update_capVoltage(v0, V_applied, R, C, dt)
-    e_cap = 0.5*C*v_cap**2
-    e_leak = v_cap*cap_leakage(1000e6, v_cap)*dt
-    e_final = e_cap-e_leak
-    if e_final < 0: #Not charging if leakage is greater than energy
-        e_final = 0
-    #print("e_final: " + str(e_final))
-    return e_final, v_cap #subtract leaked energy
-'''
+# def cap_leakage(insul_R=1000e6, rated_V=4):
+#     #https://media.digikey.com/pdf/Data%20Sheets/Samsung%20PDFs/CL05X106MR5NUNC_Spec.pdf
+#     return rated_V/insul_R
+
+# def update_capEnergy(e0, V_applied, R, C, dt):
+#     # e0: initial energy stored
+#     # V_applied: voltage from SMFC
+#     # R: internal resistance of SMFC
+#     # C: capacitance of capacitor
+#     # dt: time step since last data point
+#     if e0 > 0:
+#         v0 = math.sqrt(2*e0/C)
+#     else:
+#         v0 = 0
+#     v_cap = update_capVoltage(v0, V_applied, R, C, dt)
+#     e_cap = 0.5*C*v_cap**2
+#     e_leak = v_cap*cap_leakage(1000e6, v_cap)*dt
+#     e_final = e_cap-e_leak
+#     if e_final < 0: #Not charging if leakage is greater than energy
+#         e_final = 0
+#     #print("e_final: " + str(e_final))
+#     return e_final, v_cap #subtract leaked energy
+
 
 #NEW MODEL
 def cap_leakage(E_cap_tn, timestep):
@@ -89,8 +89,12 @@ def Matrix_Power(V, R):
     #V is the voltage (V) of the SMFC we captured
     #R is the resistance (ohms) of the load we used to get that voltage trace
     Eta = -292.25665*V**4 + 784.30311*V**3 - 770.71691*V**2 + 342.00502*V + 15.83307
+    Eta = Eta/100
     Pmax = (V**2)/R
     Pout = Eta*Pmax
+    assert((Eta > 0) & (Eta < 1))
+    assert(Pout < 500e-6)
+    #print(Pout)
     return Pout
 
 def update_capEnergy(e0, V_applied, R, C, dt):
@@ -100,16 +104,20 @@ def update_capEnergy(e0, V_applied, R, C, dt):
     # C: capacitance of capacitor
     # dt: time step since last data point
     if e0 > 0:
-        e0 = math.sqrt(2*e0/C)
+        v0 = math.sqrt(2*e0/C)
     else:
         e0 = 0
     e_cap = e0 + Matrix_Power(V_applied, R)*dt - cap_leakage(e0, dt)
     v_cap = math.sqrt(2*e_cap/C)
     if e_cap < 0: #Not charging if leakage is greater than energy
         e_cap = 0
+    
     return e_cap, v_cap #output final e and v
 
-def Ambiq_energy():
+
+#Old
+
+'''def Ambiq_energy():
     #page 188 of Apollo4 SoC Datasheet
     #VDD = 1.9
     #15.8 uA/MHz
@@ -130,6 +138,21 @@ def MSP430_energy():
     #2.2 min V reported in 8.12.4 Wake-up Characteristics
     #0.5 ms startup time at 2.2V
     e_startup = 2.2 * 90e-6 * 5e-4
+    return  e + e_startup
+'''
+def Ambiq_energy():
+    #Now representing "Advanced"
+    #startup time of 2500 ms
+    #t = 2500e-3
+    #e = 2.4 * 128e-3 * t
+    #e_startup = 2.4 * 5e-3 * 128e-3
+    return 0.768
+
+def MSP430_energy():
+    #Now representing "Minimal"
+    t = 0.888e-3 #tentative time
+    e = 0.9 * 12.4e-6 * t
+    e_startup = 0#2.2 * 90e-6 * 5e-4
     return  e + e_startup
 
 def MARS_energy():
@@ -235,25 +258,20 @@ def simulate(t_list, v_list, C_h):
     '''print("# of readings by Ambiq: ", on_Ambiq_list)
     print("# of readings by MSP430: ", on_MSP430_list)
     print("# of readings by MARS: ", on_MARS_list)
-
     fig, axs = plt.subplots(3, 1, figsize=(12, 4), sharex=True)
     axs[0].plot(t_list[1:], cap_energy_ambiq, label="E in Ambiq Capacitor")
     axs[0].plot(t_list[1:], cap_energy_msp430, label="E in MSP430 Capacitor")
     axs[0].plot(t_list[1:], cap_energy_mars, label="E in MARS Capacitor")
     axs.flat[0].set(ylabel="Energy (J)")
-
     axs[1].plot(t_list[1:], cap_v_ambiq, label="V of Ambiq Capacitor")
     axs[1].plot(t_list[1:], cap_v_msp430, label="V of MSP430 Capacitor")
     axs[1].plot(t_list[1:], cap_v_mars, label="V of MARS Capacitor")
     axs.flat[1].set(ylabel="Voltage (V)")
-
     axs[2].plot(t_list[1:], v_list[1:], label="SMFC Voltage")
     axs.flat[2].set(ylabel="SMFC Voltage (V)")
-
     # specifying horizontal line type
     #plt.axhline(y = models.Ambiq_energy(), color = 'r', linestyle = '-')
     #plt.axhline(y = models.MARS_energy(), color = 'r', linestyle = '-.')
-
     plt.xlabel("Timeline (Days)")
     axs[0].legend()
     axs[1].legend()'''

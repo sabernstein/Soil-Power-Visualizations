@@ -26,7 +26,7 @@ import models
 #             s =  r'%s%s' % (significand, exponent)
 #         return "${}$".format(s)
 
-def bar_subplots(data1, data2, data3, data4, data5, data6):
+def bar_subplots(data1, data2):
     #import custom font
     font_path = './font/linux_libertine/LinLibertine_RB.ttf'  # the location of the font file
     my_font = font_manager.FontProperties(fname=font_path, size=16)  # get the font based on the font_path, set font size
@@ -36,13 +36,13 @@ def bar_subplots(data1, data2, data3, data4, data5, data6):
     
     
     fig, axs = plt.subplots(1, 1, figsize=(12, 4), sharex=True)
-    barWidth = 0.33
+    barWidth = 0.5
     x = np.arange(len(data1))
     x1 = [item + barWidth for item in x]
     x2 = [item + barWidth for item in x1]
-    axs.bar(x, data1, color="blue", label="Apollo4", width = barWidth, alpha=1)
-    axs.bar(x1, data2, color="green", label="MSP430", width = barWidth, alpha=1)
-    axs.bar(x2, data3, color="orange", label="MARS", width = barWidth, alpha=1)
+    axs.bar(x, data1, color="blue", label="Advanced", width = barWidth, alpha=1)
+    axs.bar(x1, data2, color="green", label="Minimal", width = barWidth, alpha=1)
+    #axs.bar(x2, data3, color="orange", label="MARS", width = barWidth, alpha=1)
     axs.set_yscale('log')
 
     #axs[1].bar(x, data4, color="blue", label="Apollo4", width = barWidth, alpha=1)
