@@ -101,7 +101,89 @@ def bar_subplots(data1, data2):
     plt.show()
 
 
-def bar_subplots2(data1, data2):
+def bar_subplots2(data1, data2, data3, data4):
+    #import custom font
+    font_path = './font/linux_libertine/LinLibertine_RB.ttf'  # the location of the font file
+    my_font = font_manager.FontProperties(fname=font_path, size=16)  # get the font based on the font_path, set font size
+
+    font_path2 = './font/linux_libertine/LinLibertine_R.ttf'  # the location of the font file
+    my_font2 = font_manager.FontProperties(fname=font_path2, size=20)  # get the font based on the font_path, set font size
+    
+    fig, axs = plt.subplots(2, 1, figsize=(12, 4), sharex=True)
+    barWidth = 0.5
+    x = np.arange(len(data1))
+    x1 = [item + barWidth for item in x]
+    x2 = [item + barWidth for item in x1]
+    axs[0].bar(x, data1, color="blue", label="v0", width = barWidth, alpha=1)
+    axs[0].bar(x1, data2, color="green", label="v3", width = barWidth, alpha=1)
+    axs[1].bar(x, data3, color="blue", label="v0", width = barWidth, alpha=1)
+    axs[1].bar(x1, data4, color="green", label="v3", width = barWidth, alpha=1)
+
+    axs[0].yaxis.set_major_locator(mtick.MaxNLocator(4))
+    axs[0].yaxis.set_major_formatter(mtick.FormatStrFormatter('%.2e'))
+    axs[1].yaxis.set_major_locator(mtick.MaxNLocator(4))
+    axs[1].yaxis.set_major_formatter(mtick.FormatStrFormatter('%.2e'))
+    # class MyFormatter(mticker.Formatter):
+    #     def __init__(self, my_font, fmt="%1.2e"):
+    #         self.fmt = fmt
+    #         self.my_font = my_font
+            
+    #     def __call__(self, x, pos=None):
+    #         s = self.fmt % x
+    #         decimal_point = '.'
+    #         positive_sign = '+'
+    #         tup = s.split('e')
+    #         significand = tup[0].rstrip(decimal_point)
+    #         sign = tup[1][0].replace(positive_sign, '')
+    #         exponent = tup[1][1:].lstrip('0')
+    #         if exponent:
+    #             exponent = '10^{%s%s}' % (sign, exponent)
+    #         if significand and exponent:
+    #             s =  r'%s{\times}%s' % (significand, exponent)
+    #         else:
+    #             s =  r'%s%s' % (significand, exponent)
+    #         return "${}$".format(s)
+            
+    #     def set_font(self, my_font):
+    #         self.my_font = my_font
+            
+    #     def set_formatter(self, fmt):
+    #         self.fmt = fmt
+        
+    # my_formatter = MyFormatter(my_font2)
+    # axs.yaxis.set_major_formatter(my_formatter)
+
+    for label in axs[0].get_yticklabels():
+        label.set_fontproperties(my_font2)
+    for label in axs[0].get_xticklabels():
+        label.set_fontproperties(my_font2)
+    
+    for label in axs[1].get_yticklabels():
+        label.set_fontproperties(my_font2)
+    for label in axs[1].get_xticklabels():
+        label.set_fontproperties(my_font2)
+    
+    axs.flat[0].set_title("Advanced", fontproperties=my_font)
+    # axs.flat[1].set_ylabel("# of Operations", fontproperties=my_font2)
+    axs.flat[1].set_title("Minimal", fontproperties=my_font)
+
+    plt.legend(loc='upper center', bbox_to_anchor=(0.5, 2.5),
+          fancybox=True, ncol=4, prop=my_font, frameon=False)
+
+    # axs.flat[0].set(ylabel="Ambiq")
+    #axs[0].set_ylabel("Number of Operations", fontproperties=my_font, size=22, labelpad=20)
+    #axs[1].set_ylabel("Number of Operations", fontproperties=my_font, size=22, labelpad=20)
+    fig.text(0.03, 0.5, 'Number of Operations', va='center', rotation='vertical', fontproperties=my_font, size=22)
+    #axs.flat[1].set_ylabel("v3", fontproperties=my_font2)
+    #axs.flat[2].set_ylabel("MARS", fontproperties=my_font2)
+
+    plt.subplots_adjust(left=0.15, right=0.9, top=0.9, bottom=0.1)
+    plt.xlabel("Timeline (Days)", fontproperties=my_font, size=22)
+    
+    # plt.legend()
+    plt.show()
+
+def bar_subplots_mars(days, data1, data2):
     #import custom font
     font_path = './font/linux_libertine/LinLibertine_RB.ttf'  # the location of the font file
     my_font = font_manager.FontProperties(fname=font_path, size=16)  # get the font based on the font_path, set font size
@@ -110,15 +192,12 @@ def bar_subplots2(data1, data2):
     my_font2 = font_manager.FontProperties(fname=font_path2, size=20)  # get the font based on the font_path, set font size
     
     fig, axs = plt.subplots(1, 1, figsize=(12, 4), sharex=True)
-    barWidth = 0.5
-    x = np.arange(len(data1))
-    x1 = [item + barWidth for item in x]
-    x2 = [item + barWidth for item in x1]
-    axs.bar(x, data1, color="blue", label="v0", width = barWidth, alpha=1)
-    axs.bar(x1, data2, color="green", label="v3", width = barWidth, alpha=1)
 
-    axs.yaxis.set_major_locator(mtick.MaxNLocator(4))
-    axs.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.2e'))
+    axs.plot(days, data1, color="blue", label="v0", alpha=1)
+    axs.plot(days, data2, color="green", label="v3", alpha=1)
+
+    #axs.yaxis.set_major_locator(mtick.MaxNLocator(4))
+    #axs.yaxis.set_major_formatter(mtick.FormatStrFormatter('%.2e'))
     # class MyFormatter(mticker.Formatter):
     #     def __init__(self, my_font, fmt="%1.2e"):
     #         self.fmt = fmt
@@ -158,7 +237,7 @@ def bar_subplots2(data1, data2):
           fancybox=True, ncol=4, prop=my_font, frameon=False)
 
     # axs.flat[0].set(ylabel="Ambiq")
-    axs.set_ylabel("Number of Operations", fontproperties=my_font, size=22, labelpad=20)
+    axs.set_ylabel("Device Status", fontproperties=my_font, size=22, labelpad=20)
 
     #axs.flat[1].set_ylabel("v3", fontproperties=my_font2)
     #axs.flat[2].set_ylabel("MARS", fontproperties=my_font2)
@@ -168,8 +247,6 @@ def bar_subplots2(data1, data2):
     
     # plt.legend()
     plt.show()
-
-
 
 
 

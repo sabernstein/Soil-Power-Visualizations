@@ -103,10 +103,6 @@ def update_capEnergy(e0, V_applied, R, C, dt):
     # R: internal resistance of SMFC
     # C: capacitance of capacitor
     # dt: time step since last data point
-    if e0 > 0:
-        v0 = math.sqrt(2*e0/C)
-    else:
-        e0 = 0
     e_cap = e0 + Matrix_Power(V_applied, R)*dt - cap_leakage(e0, dt)
     v_cap = math.sqrt(2*e_cap/C)
     if e_cap < 0: #Not charging if leakage is greater than energy
@@ -208,73 +204,76 @@ def simulate(t_list, v_list, C_h):
         E_MSP430, v_msp430 = update_capEnergy(e_msp430_init, V_applied=v_list[jj], R=internal_R_v0(), C=C_h[0], dt=t)
         E_MARS, v_mars = update_capEnergy(e_mars_init, V_applied=v_list[jj], R=internal_R_v0(), C=C_h[0], dt=t)
 
+        on_Ambiq_list.append(E_Ambiq)
+        on_MSP430_list.append(E_MSP430)
+        on_MARS_list.append(E_MARS)
         
-        #Check if we have enough power to turn things on
-        if E_Ambiq > Ambiq_energy():
-            on_Ambiq = on_Ambiq + round(E_Ambiq/Ambiq_energy())
-            E_Ambiq = 0 #completely discharge, prob bad assumption will change based on matrix board stat
-            v_ambiq = 0
-            #
+    #     #Check if we have enough power to turn things on
+    #     if E_Ambiq > Ambiq_energy():
+    #         on_Ambiq = on_Ambiq + round(E_Ambiq/Ambiq_energy())
+    #         E_Ambiq = 0 #completely discharge, prob bad assumption will change based on matrix board stat
+    #         v_ambiq = 0
+    #         #
             
-        if E_MSP430 > MSP430_energy():
-            on_MSP430 = on_MSP430 + round(E_MSP430/MSP430_energy())
-            E_MSP430 = 0 #completely discharge, prob bad assumption will change based on matrix board stat
-            v_msp430 = 0
-            #
+    #     if E_MSP430 > MSP430_energy():
+    #         on_MSP430 = on_MSP430 + round(E_MSP430/MSP430_energy())
+    #         E_MSP430 = 0 #completely discharge, prob bad assumption will change based on matrix board stat
+    #         v_msp430 = 0
+    #         #
             
-        if E_MARS > MARS_energy():
-            #print(E0_MARS, models.MARS_energy(), E0_MARS/models.MARS_energy())
-            on_MARS = on_MARS + round(E_MARS/MARS_energy())
+    #     if E_MARS > MARS_energy():
+    #         #print(E0_MARS, models.MARS_energy(), E0_MARS/models.MARS_energy())
+    #         on_MARS = on_MARS + round(E_MARS/MARS_energy())
             
-            E_MARS = 0 #completely discharge, prob bad assumption will change based on matrix board stat
-            v_mars = 0
+    #         E_MARS = 0 #completely discharge, prob bad assumption will change based on matrix board stat
+    #         v_mars = 0
             
-            #print("Discharging!! Now energy left: " + str(E0_MARS))
+    #         #print("Discharging!! Now energy left: " + str(E0_MARS))
 
-        cap_energy_mars.append(E_MARS)
-        cap_energy_msp430.append(E_MSP430)
-        cap_energy_ambiq.append(E_Ambiq)
-        cap_v_mars.append(v_mars)
-        cap_v_msp430.append(v_msp430)
-        cap_v_ambiq.append(v_ambiq)
+    #     cap_energy_mars.append(E_MARS)
+    #     cap_energy_msp430.append(E_MSP430)
+    #     cap_energy_ambiq.append(E_Ambiq)
+    #     cap_v_mars.append(v_mars)
+    #     cap_v_msp430.append(v_msp430)
+    #     cap_v_ambiq.append(v_ambiq)
 
-        #update start condition for next loop
-        e_ambiq_init = E_Ambiq
-        e_msp430_init = E_MSP430
-        e_mars_init = E_MARS
+    #     #update start condition for next loop
+    #     e_ambiq_init = E_Ambiq
+    #     e_msp430_init = E_MSP430
+    #     e_mars_init = E_MARS
         
-        if math.trunc(t_list[jj-1]) != math.trunc(t_list[jj]): #if a day ended
-            #record the number of sensor reading that day to their respective lists
-            on_Ambiq_list.append(on_Ambiq)
-            on_MSP430_list.append(on_MSP430)
-            on_MARS_list.append(on_MARS)
+    #     if math.trunc(t_list[jj-1]) != math.trunc(t_list[jj]): #if a day ended
+    #         #record the number of sensor reading that day to their respective lists
+    #         on_Ambiq_list.append(on_Ambiq)
+    #         on_MSP430_list.append(on_MSP430)
+    #         on_MARS_list.append(on_MARS)
 
-            #Reset daily sensor reading count
-            on_Ambiq = 0
-            on_MSP430 = 0
-            on_MARS = 0
+    #         #Reset daily sensor reading count
+    #         on_Ambiq = 0
+    #         on_MSP430 = 0
+    #         on_MARS = 0
 
-    #Debugging print and plots
-    '''print("# of readings by Ambiq: ", on_Ambiq_list)
-    print("# of readings by MSP430: ", on_MSP430_list)
-    print("# of readings by MARS: ", on_MARS_list)
-    fig, axs = plt.subplots(3, 1, figsize=(12, 4), sharex=True)
-    axs[0].plot(t_list[1:], cap_energy_ambiq, label="E in Ambiq Capacitor")
-    axs[0].plot(t_list[1:], cap_energy_msp430, label="E in MSP430 Capacitor")
-    axs[0].plot(t_list[1:], cap_energy_mars, label="E in MARS Capacitor")
-    axs.flat[0].set(ylabel="Energy (J)")
-    axs[1].plot(t_list[1:], cap_v_ambiq, label="V of Ambiq Capacitor")
-    axs[1].plot(t_list[1:], cap_v_msp430, label="V of MSP430 Capacitor")
-    axs[1].plot(t_list[1:], cap_v_mars, label="V of MARS Capacitor")
-    axs.flat[1].set(ylabel="Voltage (V)")
-    axs[2].plot(t_list[1:], v_list[1:], label="SMFC Voltage")
-    axs.flat[2].set(ylabel="SMFC Voltage (V)")
-    # specifying horizontal line type
-    #plt.axhline(y = models.Ambiq_energy(), color = 'r', linestyle = '-')
-    #plt.axhline(y = models.MARS_energy(), color = 'r', linestyle = '-.')
-    plt.xlabel("Timeline (Days)")
-    axs[0].legend()
-    axs[1].legend()'''
+    # #Debugging print and plots
+    # '''print("# of readings by Ambiq: ", on_Ambiq_list)
+    # print("# of readings by MSP430: ", on_MSP430_list)
+    # print("# of readings by MARS: ", on_MARS_list)
+    # fig, axs = plt.subplots(3, 1, figsize=(12, 4), sharex=True)
+    # axs[0].plot(t_list[1:], cap_energy_ambiq, label="E in Ambiq Capacitor")
+    # axs[0].plot(t_list[1:], cap_energy_msp430, label="E in MSP430 Capacitor")
+    # axs[0].plot(t_list[1:], cap_energy_mars, label="E in MARS Capacitor")
+    # axs.flat[0].set(ylabel="Energy (J)")
+    # axs[1].plot(t_list[1:], cap_v_ambiq, label="V of Ambiq Capacitor")
+    # axs[1].plot(t_list[1:], cap_v_msp430, label="V of MSP430 Capacitor")
+    # axs[1].plot(t_list[1:], cap_v_mars, label="V of MARS Capacitor")
+    # axs.flat[1].set(ylabel="Voltage (V)")
+    # axs[2].plot(t_list[1:], v_list[1:], label="SMFC Voltage")
+    # axs.flat[2].set(ylabel="SMFC Voltage (V)")
+    # # specifying horizontal line type
+    # #plt.axhline(y = models.Ambiq_energy(), color = 'r', linestyle = '-')
+    # #plt.axhline(y = models.MARS_energy(), color = 'r', linestyle = '-.')
+    # plt.xlabel("Timeline (Days)")
+    # axs[0].legend()
+    # axs[1].legend()'''
 
     return on_Ambiq_list, on_MSP430_list, on_MARS_list
 

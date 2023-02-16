@@ -8,6 +8,21 @@ for ii in range(len(days)): #turn everything into unit of volts
     v0_avg_v[ii] = v0_avg_v[ii]/1000
     v3_avg_v[ii] = v3_avg_v[ii]/1000
 
+MARS_on_0 = []
+for v in v0_avg_v:
+    if v > 0.2:
+        MARS_on_0.append(1)
+    else:
+        MARS_on_0.append(0)
+
+MARS_on_3 = []
+for v in v3_avg_v:
+    if v > 0.2:
+        MARS_on_3.append(1)
+    else:
+        MARS_on_3.append(0)
+#visualizations.bar_subplots_mars(days, MARS_on_0, MARS_on_3)
+
 #Replace variable voltage with constant voltage for debugging
 # v0_avg_v = []
 # v3_avg_v = []
@@ -21,16 +36,16 @@ C3 = [0.007000000000000006, 0.007000000000000006, 0.007000000000000006]
 Ambiq0, MSP430_0, ignore = models.simulate(days, v0_avg_v, C0)
 Ambiq3, MSP430_3, ignore = models.simulate(days, v3_avg_v, C3)
 
-#print(sum(Ambiq0))
-#print(sum(MSP430_0))
-# print(sum(MARS0))
 print(sum(Ambiq0))
-print(sum(Ambiq3))
-# print(sum(MARS3))
+print(sum(MSP430_0))
+#print(sum(MARS0))
+print(sum(MSP430_3))
+print(sum(MSP430_3))
+#print(sum(MARS3))
 
 #generate bar graphs
-visualizations.bar_subplots2(MSP430_0, MSP430_3) # generate graph 1
-#visualizations.bar_subplots(Ambiq3, MSP430_3) # generate graph 2
+#visualizations.bar_subplots2(Ambiq0, Ambiq3, MSP430_0, MSP430_3) # generate graph 1
+visualizations.bar_subplots(Ambiq3, MSP430_3) # generate graph 2
 
 #Find total sensor count
 # cap_list = []
